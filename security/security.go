@@ -1,13 +1,12 @@
 package security
 
 import (
-	mdl "beerwh/models"
-	"encoding/json"
 	"github.com/gorilla/sessions"
 	"net/http"
 )
 
-var Authenticated = false
+var CookieName = "virtus"
+var Store = sessions.NewCookieStore([]byte("vindixit123581321"))
 
 func CheckInternalServerError(err error, w http.ResponseWriter) {
 	if err != nil {
@@ -17,21 +16,13 @@ func CheckInternalServerError(err error, w http.ResponseWriter) {
 }
 
 func IsAuthenticated(w http.ResponseWriter, r *http.Request) bool {
-	if !Authenticated {
-		http.Redirect(w, r, "/login", 301)
+	session, err := Store.Get(r, CookieName)
+	if err != nil {
+		return false
+	}
+	sessionUser := session.Values["user"]
+	if sessionUser == nil {
 		return false
 	}
 	return true
-}
-
-func getLoggedUser(r *http.Request) mdl.User {
-	var user mdl.User
-	var store = sessions.NewCookieStore([]byte("beerwh"))
-	session, _ := store.Get(r, "beerwh")
-	sessionUser := session.Values["user"]
-	if sessionUser != nil {
-		strUser := sessionUser.(string)
-		json.Unmarshal([]byte(strUser), &user)
-	}
-	return user
 }

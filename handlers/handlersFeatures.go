@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	mdl "beerwh/models"
-	route "beerwh/routes"
-	sec "beerwh/security"
 	"html/template"
+	mdl "insolit/models"
+	route "insolit/routes"
+	sec "insolit/security"
 	"log"
 	"net/http"
 	"strconv"
@@ -66,6 +66,27 @@ func DeleteFeatureHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, route.FeaturesRoute, 301)
 }
 
+func DeleteFeaturesByRoleHandler(roleId string) {
+	sqlStatement := "DELETE FROM features_roles WHERE role_id=$1"
+	deleteForm, err := Db.Prepare(sqlStatement)
+	if err != nil {
+		panic(err.Error())
+	}
+	deleteForm.Exec(roleId)
+	log.Println("DELETE features_roles in Role Id: " + roleId)
+}
+func DeleteFeaturesHandler(diffDB []mdl.Feature) {
+	sqlStatement := "DELETE FROM features_roles WHERE feature_id=$1"
+	deleteForm, err := Db.Prepare(sqlStatement)
+	if err != nil {
+		panic(err.Error())
+	}
+	for n := range diffDB {
+		deleteForm.Exec(strconv.FormatInt(int64(diffDB[n].Id), 10))
+		log.Println("DELETE: Feature Id: " + strconv.FormatInt(int64(diffDB[n].Id), 10))
+	}
+}
+
 func ListFeaturesHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("List Features")
 	sec.IsAuthenticated(w, r)
@@ -82,8 +103,10 @@ func ListFeaturesHandler(w http.ResponseWriter, r *http.Request) {
 		features = append(features, feature)
 	}
 	var page mdl.PageFeatures
+	page.AppName = mdl.AppName
 	page.Features = features
 	page.Title = "Funcionalidades"
+	page.LoggedUser = BuildLoggedUser(GetUserInCookie(w, r))
 	var tmpl = template.Must(template.ParseGlob("tiles/features/*"))
 	tmpl.ParseGlob("tiles/*")
 	tmpl.ExecuteTemplate(w, "Main-Features", page)

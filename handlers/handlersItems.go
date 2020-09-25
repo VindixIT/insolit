@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	mdl "beerwh/models"
-	//	sec "beerwh/security"
+	mdl "insolit/models"
+	//	sec "insolit/security"
 	//	"reflect"
 	//	pq "github.com/lib/pq"
 	//	"html/template"

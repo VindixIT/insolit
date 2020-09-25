@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	mdl "beerwh/models"
-	route "beerwh/routes"
-	sec "beerwh/security"
 	"html/template"
+	mdl "insolit/models"
+	route "insolit/routes"
+	sec "insolit/security"
 	"log"
 	"net/http"
 	"strconv"
@@ -84,8 +84,10 @@ func ListBeersHandler(w http.ResponseWriter, r *http.Request) {
 		beers = append(beers, beer)
 	}
 	var page mdl.PageBeers
+	page.AppName = mdl.AppName
 	page.Beers = beers
 	page.Title = "Cervejas"
+	page.LoggedUser = BuildLoggedUser(GetUserInCookie(w, r))
 	var tmpl = template.Must(template.ParseGlob("tiles/beers/*"))
 	tmpl.ParseGlob("tiles/*")
 	tmpl.ExecuteTemplate(w, "Main-Beers", page)

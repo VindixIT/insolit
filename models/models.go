@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+var AppName = "InSolIT"
+
 type Role struct {
 	Order    int
 	Id       int64  `json:"id"`
@@ -27,9 +29,15 @@ type Workflow struct {
 }
 
 type Action struct {
-	Order int
-	Id    int64  `json:"id"`
-	Name  string `json:"name"`
+	Order         int
+	Id            int64  `json:"id"`
+	Name          string `json:"name"`
+	OriginId      int64  `json:"originid"`
+	Origin        string `json:"originName"`
+	DestinationId int64  `json:"destinationid"`
+	Destination   string `json:"destinationName"`
+	OtherThan     bool   `json:"otherthan"`
+	Roles         []Role
 }
 
 type Status struct {
@@ -75,18 +83,24 @@ type NullTime struct {
 	pq.NullTime
 }
 
-type User struct {
-	Order         int
-	Id            int64  `json:"id"`
-	Name          string `json:"name"`
-	Username      string `json:"username"`
-	Password      string `json:"password"`
-	Email         string `json:"email"`
-	Mobile        string `json:"mobile"`
-	Role          int64  `json:"role"`
-	RoleName      string `json:"rolename"`
+// NÃO SEI SE VOU USAR AINDA
+type LoggedUser struct {
+	User          User
 	HasPermission func(string) bool
-	Selected      bool
+}
+
+type User struct {
+	Order    int       `json:"order"`
+	Id       int64     `json:"id"`
+	Name     string    `json:"name"`
+	Username string    `json:"username"`
+	Password string    `json:"password"`
+	Email    string    `json:"email"`
+	Mobile   string    `json:"mobile"`
+	Role     int64     `json:"role"`
+	RoleName string    `json:"rolename"`
+	Features []Feature `json:"features"`
+	Selected bool      `json:"selected"`
 }
 
 type Measure struct {
@@ -96,51 +110,72 @@ type Measure struct {
 }
 
 type PageMeasures struct {
-	Title    string
-	Measures []Measure
+	AppName    string
+	Title      string
+	Measures   []Measure
+	LoggedUser LoggedUser
 }
 
 type PageOrders struct {
-	Title  string
-	UserId int
-	Orders []Order
-	Beers  []Beer
-	Users  []User
+	AppName    string
+	Title      string
+	UserId     int
+	Orders     []Order
+	Beers      []Beer
+	Users      []User
+	LoggedUser LoggedUser
 }
 
 type PageUsers struct {
-	Title string
-	Users []User
-	Roles []Role
+	AppName    string
+	Title      string
+	Users      []User
+	Roles      []Role
+	LoggedUser LoggedUser
 }
 
 type PageBeers struct {
-	Title string
-	Beers []Beer
+	AppName    string
+	Title      string
+	Beers      []Beer
+	LoggedUser LoggedUser
 }
 
 type PageRoles struct {
-	Title    string
-	Roles    []Role
-	Features []Feature
+	AppName    string
+	Title      string
+	Roles      []Role
+	Features   []Feature
+	LoggedUser LoggedUser
 }
 
 type PageFeatures struct {
-	Title    string
-	Features []Feature
+	AppName    string
+	Title      string
+	Features   []Feature
+	LoggedUser LoggedUser
 }
 
 type PageStatus struct {
-	Title  string
-	Status []Status
+	AppName    string
+	Title      string
+	Status     []Status
+	LoggedUser LoggedUser
 }
 
 type PageAction struct {
-	Title   string
-	Actions []Action
+	AppName    string
+	Title      string
+	Statuss    []Status
+	Actions    []Action
+	LoggedUser LoggedUser
 }
 
 type PageWorkflow struct {
-	Title     string
-	Workflows []Workflow
+	AppName    string
+	Title      string
+	Actions    []Action
+	Roles      []Role
+	Workflows  []Workflow
+	LoggedUser LoggedUser
 }

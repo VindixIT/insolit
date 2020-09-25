@@ -1,4 +1,4 @@
-module beerwh
+module insolit
 
 go 1.14
 

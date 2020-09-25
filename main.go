@@ -1,9 +1,9 @@
 package main
 
 import (
-	dpk "beerwh/db"
-	hd "beerwh/handlers"
-	route "beerwh/routes"
+	dpk "insolit/db"
+	hd "insolit/handlers"
+	route "insolit/routes"
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
@@ -36,6 +36,21 @@ func main() {
 	dpk.Initialize()
 	http.HandleFunc("/", hd.IndexHandler)
 	http.HandleFunc("/login", hd.LoginHandler)
+	// ----------------- WORKFLOWS
+	http.HandleFunc(route.WorkflowsRoute, hd.ListWorkflowsHandler)
+	http.HandleFunc("/createWorkflow", hd.CreateWorkflowHandler)
+	http.HandleFunc("/updateWorkflow", hd.UpdateWorkflowHandler)
+	http.HandleFunc("/deleteWorkflow", hd.DeleteWorkflowHandler)
+	// ----------------- ACTIONS
+	http.HandleFunc(route.ActionsRoute, hd.ListActionsHandler)
+	http.HandleFunc("/createAction", hd.CreateActionHandler)
+	http.HandleFunc("/updateAction", hd.UpdateActionHandler)
+	http.HandleFunc("/deleteAction", hd.DeleteActionHandler)
+	// ----------------- STATUS
+	http.HandleFunc(route.StatusRoute, hd.ListStatusHandler)
+	http.HandleFunc("/createStatus", hd.CreateStatusHandler)
+	http.HandleFunc("/updateStatus", hd.UpdateStatusHandler)
+	http.HandleFunc("/deleteStatus", hd.DeleteStatusHandler)
 	// ----------------- FEATURES
 	http.HandleFunc(route.FeaturesRoute, hd.ListFeaturesHandler)
 	http.HandleFunc("/createFeature", hd.CreateFeatureHandler)
@@ -64,6 +79,7 @@ func main() {
 	// ----------------- ITEMS
 	http.HandleFunc("/loadItemsByOrderId", hd.LoadItemsByOrderId)
 	http.HandleFunc("/loadFeaturesByRoleId", hd.LoadFeaturesByRoleId)
+	http.HandleFunc("/loadRolesByActionId", hd.LoadRolesByActionId)
 	// ----------------- STATICS
 	http.Handle("/statics/",
 		http.StripPrefix("/statics/", http.FileServer(http.Dir("./statics"))),

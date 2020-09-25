@@ -18,7 +18,7 @@
 					var ar = [];
 					var i = 0;
 				</script>					
-	            <select onchange="resetFields('edit');" id="beer-edit">
+	            <select class="w3-input" onchange="resetFields('edit');" id="beer-edit">
 					<option value=""></option>
 					{{range $index, $beer := .Beers }}
 	                <option value="{{$beer.Id}}">

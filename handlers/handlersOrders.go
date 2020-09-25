@@ -1,11 +1,11 @@
 package handlers
 
 import (
-	mdl "beerwh/models"
-	route "beerwh/routes"
-	sec "beerwh/security"
 	"encoding/json"
 	"html/template"
+	mdl "insolit/models"
+	route "insolit/routes"
+	sec "insolit/security"
 	"log"
 	"net/http"
 	"strconv"
@@ -15,8 +15,9 @@ import (
 func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
 	sec.IsAuthenticated(w, r)
 	log.Println("Create Order")
-
+	// statusId := GetStartStatus("order")
 	if r.Method == "POST" {
+		userId := r.FormValue("UserForInsert")
 		orderedDate := r.FormValue("OrderDateForInsert")
 		orderedAt := r.FormValue("OrderedAtForInsert")
 		takeOutDate := r.FormValue("TakeOutDateForInsert")
@@ -29,17 +30,10 @@ func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
 			" user_id, ordered_at, take_out_at ) " +
 			" VALUES ($1, TO_TIMESTAMP($2, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP($3, 'YYYY-MM-DD HH24:MI:SS')) RETURNING id"
 		orderId := 0
-		var user mdl.User
-		session, _ := store.Get(r, "beerwh")
-		sessionUser := session.Values["user"]
-		if sessionUser != nil {
-			strUser := sessionUser.(string)
-			json.Unmarshal([]byte(strUser), &user)
-			err := Db.QueryRow(sqlStatement, user.Id, orderedAt, takeOutAt).Scan(&orderId)
-			sec.CheckInternalServerError(err, w)
-			if err != nil {
-				panic(err.Error())
-			}
+		err := Db.QueryRow(sqlStatement, userId, orderedAt, takeOutAt).Scan(&orderId)
+		sec.CheckInternalServerError(err, w)
+		if err != nil {
+			panic(err.Error())
 		}
 		for key, value := range r.Form {
 			if strings.HasPrefix(key, "item") {
@@ -58,6 +52,7 @@ func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
 				}
 				sec.CheckInternalServerError(err, w)
 				l := "INSERT: Id: " + strconv.Itoa(orderId)
+				l += " | UserId: " + userId
 				l += " | OrderedDate: " + orderedDate
 				l += " | OrderedAt: " + orderedAt
 				l += " | TakeOutDate: " + takeOutDate
@@ -261,13 +256,10 @@ func ListOrdersHandler(w http.ResponseWriter, r *http.Request) {
 	sec.CheckInternalServerError(err, w)
 	var users []mdl.User
 	var user mdl.User
-	var savedUser mdl.User
-	session, _ := store.Get(r, "beerwh")
-	sessionUser := session.Values["user"]
-	if sessionUser != nil {
-		strUser := sessionUser.(string)
-		json.Unmarshal([]byte(strUser), &savedUser)
-	}
+
+	savedUser := GetUserInCookie(w, r)
+	log.Println("ORDERS Saved User is " + savedUser.Username)
+
 	for rows.Next() {
 		err = rows.Scan(&user.Id, &user.Name)
 		if user.Id == savedUser.Id {
@@ -291,7 +283,9 @@ func ListOrdersHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	page.Beers = beers
 	page.Orders = orders
+	page.AppName = mdl.AppName
 	page.Title = "Pedidos"
+	page.LoggedUser = BuildLoggedUser(savedUser)
 	var tmpl = template.Must(template.ParseGlob("tiles/orders/*"))
 	tmpl.ParseGlob("tiles/*")
 	tmpl.ExecuteTemplate(w, "Main-Orders", page)

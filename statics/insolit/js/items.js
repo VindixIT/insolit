@@ -61,7 +61,6 @@ function criarItem(){
 	var beerId = a.options[a.selectedIndex].value;
 	var beerName = a.options[a.selectedIndex].text;
 	var qtd = document.getElementById('qtd-create').value;
-	var value = document.getElementById('value-create').value;
 	var erros = '';
 	if(beerId=='' || qtd == ''){
 		if(beerId==''){
@@ -73,6 +72,7 @@ function criarItem(){
 		alert(erros);
 		return;
 	}
+	var value = document.getElementById('value-create').value;
 	item = new Item(items.length, beerId, beerName, qtd, price, value);
 	items.push(item);
 	addRow("table-items-"+contexto);
