@@ -11,7 +11,7 @@
   <a href="/orders">Pedidos</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listUsers")}}
-  <a href="/users">Usuários</a>
+  <a href="/usuarios">Usuários</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listClientes")}}
   <a href="/clientes">Clientes</a>
@@ -35,7 +35,7 @@
   <a href="/status">Status</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listActions")}}
-  <a href="/actions">Ações</a>
+  <a href="/acoes">Ações</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listWorkflows")}}
   <a href="/workflows">Workflows</a>
