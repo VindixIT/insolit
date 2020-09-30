@@ -9,17 +9,17 @@
 		    		</a>
 				</div>
 				<h3>{{.Title}}</h3>
-				<div style="margin-top: 10px;text-align: right;z-index:1">
+				<div style="margin-top: 10px;">
+                    <span style="position:absolute; top:34px; right:120px">{{.LoggedUser.User.Name}}</span>
 					{{ $allowed := (call .LoggedUser.HasPermission "createProduto")}}
-					{{.LoggedUser.User.Name}}
 					{{if $allowed }}
-					    <a href="#" onclick="document.getElementById('create-form').style.display='block'">
+					    <a style="margin-top: 6px" href="#" onclick="document.getElementById('create-form').style.display='block'">
 							<i class="icon ion-ios-plus-outline w3-xxlarge hoverbtn"></i>
 					    </a>
 					{{end}}
-				    <a href="/logout">
-						<i class="icon ion-log-out w3-xxlarge hoverbtn"></i>
-				    </a>
+				    <a style="margin-top: 6px" href="/logout">
+						<span class="icon ion-log-out w3-xxlarge hoverbtn"></span>
+					</a>
 				</div>
 		    </div>
 		</header>

@@ -85,7 +85,7 @@ func DeleteWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 func ListWorkflowsHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("List Workflows")
-	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
+	if sec.IsAuthenticated(w, r) {
 		query := "SELECT id, name FROM workflows order by id asc"
 		log.Println("List WF -> Query: " + query)
 		rows, err := Db.Query(query)
