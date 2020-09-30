@@ -10,8 +10,8 @@
   {{if (call .LoggedUser.HasPermission "listOrders")}}
   <a href="/orders">Pedidos</a>
   {{end}}
-  {{if (call .LoggedUser.HasPermission "listUsers")}}
-  <a href="/usuarioss">Usuários</a>
+  {{if (call .LoggedUser.HasPermission "listParques")}}
+  <a href="/parques">Parques</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listClientes")}}
   <a href="/clientes">Clientes</a>
@@ -19,11 +19,11 @@
   {{if (call .LoggedUser.HasPermission "listProdutos")}}
   <a href="/produtos">Produtos</a>
   {{end}}
-  {{if (call .LoggedUser.HasPermission "listParques")}}
-  <a href="/parques">Parques</a>
-  {{end}}
   {{if (call .LoggedUser.HasPermission "listConcessionarias")}}
   <a href="/concessionarias">Concessionarias</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listUsers")}}
+  <a href="/usuarioss">Usuários</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listRoles")}}
   <a href="/roles">Papéis</a>
