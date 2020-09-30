@@ -8,9 +8,7 @@
 						&#9776; {{.AppName}}
 		    		</a>
 				</div>
-				<div style="text-align: center;margin: auto;position:absolute;width:100%;z-index:0">
-				    <h3>{{.Title}}</h3>
-				</div>
+			    <h3>{{.Title}}</h3>
 				<div style="margin-top: 10px;text-align: right;z-index:1">
 					{{$allowed := (call .LoggedUser.HasPermission "createFeature")}}
 					{{.LoggedUser.User.Name}}

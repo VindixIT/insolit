@@ -12,9 +12,8 @@ import (
 )
 
 func CreateActionHandler(w http.ResponseWriter, r *http.Request) {
-	sec.IsAuthenticated(w, r)
-	log.Println("Create Action")
-	if r.Method == "POST" {
+	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
+		log.Println("Create Action")
 		name := r.FormValue("Name")
 		except := r.FormValue("Except")
 		otherThan := false
@@ -53,14 +52,16 @@ func CreateActionHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		sec.CheckInternalServerError(err, w)
 		log.Println("INSERT: Id: " + strconv.Itoa(actionId) + " | Name: " + name)
+		http.Redirect(w, r, route.ActionsRoute, 301)
+	} else {
+		http.Redirect(w, r, "/logout", 301)
 	}
-	http.Redirect(w, r, route.ActionsRoute, 301)
+
 }
 
 func UpdateActionHandler(w http.ResponseWriter, r *http.Request) {
-	sec.IsAuthenticated(w, r)
-	log.Println("Update Action")
-	if r.Method == "POST" {
+	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
+		log.Println("Update Action")
 		actionId := r.FormValue("Id")
 		name := r.FormValue("Name")
 		sqlStatement := "UPDATE actions SET name=$1 WHERE id=$2"
@@ -109,8 +110,10 @@ func UpdateActionHandler(w http.ResponseWriter, r *http.Request) {
 				Db.QueryRow(sqlStatement, actionId, role.Id)
 			}
 		}
+		http.Redirect(w, r, route.ActionsRoute, 301)
+	} else {
+		http.Redirect(w, r, "/logout", 301)
 	}
-	http.Redirect(w, r, route.ActionsRoute, 301)
 }
 
 func containsRole(roles []mdl.Role, roleCompared mdl.Role) bool {
@@ -133,9 +136,8 @@ func removeRole(roles []mdl.Role, roleToBeRemoved mdl.Role) []mdl.Role {
 }
 
 func DeleteActionHandler(w http.ResponseWriter, r *http.Request) {
-	sec.IsAuthenticated(w, r)
-	log.Println("Delete Action")
-	if r.Method == "POST" {
+	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
+		log.Println("Delete Action")
 		id := r.FormValue("Id")
 		sqlStatement := "DELETE FROM actions_status WHERE action_id=$1"
 		deleteForm, err := Db.Prepare(sqlStatement)
@@ -157,52 +159,57 @@ func DeleteActionHandler(w http.ResponseWriter, r *http.Request) {
 		deleteForm.Exec(id)
 		sec.CheckInternalServerError(err, w)
 		log.Println("DELETE: Id: " + id)
+		http.Redirect(w, r, route.ActionsRoute, 301)
+	} else {
+		http.Redirect(w, r, "/logout", 301)
 	}
-	http.Redirect(w, r, route.ActionsRoute, 301)
 }
 
 func ListActionsHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("List Actions")
-	sec.IsAuthenticated(w, r)
-	query := "SELECT a.id, a.name, a.origin_status_id, b.name as origin_name, a.destination_status_id, c.name as destination_name, a.other_than " +
-		"FROM actions a, status b, status c where a.origin_status_id = b.id and a.destination_status_id = c.id order by id asc"
-	log.Println("List Action -> Query: " + query)
-	rows, err := Db.Query(query)
-	sec.CheckInternalServerError(err, w)
-	var actions []mdl.Action
-	var action mdl.Action
-	var i = 1
-	for rows.Next() {
-		err = rows.Scan(&action.Id, &action.Name, &action.OriginId, &action.Origin, &action.DestinationId, &action.Destination, &action.OtherThan)
+	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
+		query := "SELECT a.id, a.name, a.origin_status_id, b.name as origin_name, a.destination_status_id, c.name as destination_name, a.other_than " +
+			"FROM actions a, status b, status c where a.origin_status_id = b.id and a.destination_status_id = c.id order by id asc"
+		log.Println("List Action -> Query: " + query)
+		rows, err := Db.Query(query)
 		sec.CheckInternalServerError(err, w)
-		action.Order = i
-		i++
-		actions = append(actions, action)
-	}
-	query = "SELECT id, name, stereotype FROM status order by name asc"
-	log.Println("List Action -> Query: " + query)
-	rows, err = Db.Query(query)
-	sec.CheckInternalServerError(err, w)
-	var statuss []mdl.Status
-	var status mdl.Status
-	i = 1
-	for rows.Next() {
-		err = rows.Scan(&status.Id, &status.Name, &status.Stereotype)
+		var actions []mdl.Action
+		var action mdl.Action
+		var i = 1
+		for rows.Next() {
+			err = rows.Scan(&action.Id, &action.Name, &action.OriginId, &action.Origin, &action.DestinationId, &action.Destination, &action.OtherThan)
+			sec.CheckInternalServerError(err, w)
+			action.Order = i
+			i++
+			actions = append(actions, action)
+		}
+		query = "SELECT id, name, stereotype FROM status order by name asc"
+		log.Println("List Action -> Query: " + query)
+		rows, err = Db.Query(query)
 		sec.CheckInternalServerError(err, w)
-		status.Order = i
-		i++
-		statuss = append(statuss, status)
+		var statuss []mdl.Status
+		var status mdl.Status
+		i = 1
+		for rows.Next() {
+			err = rows.Scan(&status.Id, &status.Name, &status.Stereotype)
+			sec.CheckInternalServerError(err, w)
+			status.Order = i
+			i++
+			statuss = append(statuss, status)
+		}
+		var page mdl.PageActions
+		page.AppName = mdl.AppName
+		page.Statuss = statuss
+		page.Actions = actions
+		page.Title = "Ação"
+		page.LoggedUser = BuildLoggedUser(GetUserInCookie(w, r))
+		var tmpl = template.Must(template.ParseGlob("tiles/actions/*"))
+		tmpl.ParseGlob("tiles/*")
+		tmpl.ExecuteTemplate(w, "Main-Actions", page)
+		sec.CheckInternalServerError(err, w)
+	} else {
+		http.Redirect(w, r, "/logout", 301)
 	}
-	var page mdl.PageActions
-	page.AppName = mdl.AppName
-	page.Statuss = statuss
-	page.Actions = actions
-	page.Title = "Ação"
-	page.LoggedUser = BuildLoggedUser(GetUserInCookie(w, r))
-	var tmpl = template.Must(template.ParseGlob("tiles/actions/*"))
-	tmpl.ParseGlob("tiles/*")
-	tmpl.ExecuteTemplate(w, "Main-Actions", page)
-	sec.CheckInternalServerError(err, w)
 }
 
 func LoadRolesByActionId(w http.ResponseWriter, r *http.Request) {

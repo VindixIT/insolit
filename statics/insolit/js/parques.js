@@ -13,6 +13,5 @@ function deleteParque(e) {
     var deleteForm = document.getElementById('delete-form');
     deleteForm.style.display = 'block';
     var parqueId = e.parentNode.parentNode.childNodes[3].innerText;
-	alert("parque ID:"+ parqueId);
     document.getElementById('ParqueIdForDelete').value = parqueId;
 }

@@ -53,7 +53,7 @@ func createFeatures() {
 	db.Exec("INSERT INTO public.features (id, name, code) VALUES (20, 'Criar Cliente', 'createCliente')")
 }
 
-func createRoleFeatures(){
+func createRoleFeatures() {
 	query := " INSERT INTO features_roles (role_id, feature_id) VALUES (1, 1) "
 	db.Exec(query)
 	query = " INSERT INTO features_roles (role_id, feature_id) VALUES (1, 2) "
@@ -375,7 +375,7 @@ func createTable() {
 			" name character varying(255)," +
 			" endereco character varying(255)," +
 			" capacidade character varying(255)," +
-			" cnpj integer)")
+			" cnpj character varying(255))")
 	// Table PARQUES
 	db.Exec(
 		" CREATE TABLE IF NOT EXISTS public.parques (" +
@@ -389,7 +389,7 @@ func createTable() {
 		" CREATE TABLE IF NOT EXISTS public.concessionarias (" +
 			" id integer DEFAULT nextval('concessionarias_id_seq'::regclass)," +
 			" name character varying(255) NOT NULL," +
-			" cnpj integer)")
+			" cnpj character varying(255) )")
 	// Table ACTIONS_ROLES
 	db.Exec(
 		" CREATE TABLE IF NOT EXISTS public.activities_roles (" +

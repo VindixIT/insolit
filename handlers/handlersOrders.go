@@ -13,10 +13,8 @@ import (
 )
 
 func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
-	sec.IsAuthenticated(w, r)
-	log.Println("Create Order")
-	// statusId := GetStartStatus("order")
-	if r.Method == "POST" {
+	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
+		log.Println("Create Order")
 		userId := r.FormValue("UserForInsert")
 		orderedDate := r.FormValue("OrderDateForInsert")
 		orderedAt := r.FormValue("OrderedAtForInsert")
@@ -60,8 +58,10 @@ func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
 				log.Println(l)
 			}
 		}
+		http.Redirect(w, r, route.OrdersRoute, 301)
+	} else {
+		http.Redirect(w, r, "/logout", 301)
 	}
-	http.Redirect(w, r, route.OrdersRoute, 301)
 }
 
 func extraiValor(arr []string) string {
@@ -73,9 +73,8 @@ func extraiValor(arr []string) string {
 }
 
 func DeleteOrderHandler(w http.ResponseWriter, r *http.Request) {
-	sec.IsAuthenticated(w, r)
-	log.Println("Delete Order")
-	if r.Method == "POST" {
+	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
+		log.Println("Delete Order")
 		id := r.FormValue("Id")
 		sqlStatement := "DELETE FROM Items WHERE order_id=$1"
 		deleteForm, err := Db.Prepare(sqlStatement)
@@ -91,14 +90,15 @@ func DeleteOrderHandler(w http.ResponseWriter, r *http.Request) {
 		deleteForm.Exec(id)
 		sec.CheckInternalServerError(err, w)
 		log.Println("DELETE: Id: " + id)
+		http.Redirect(w, r, route.OrdersRoute, 301)
+	} else {
+		http.Redirect(w, r, "/logout", 301)
 	}
-	http.Redirect(w, r, route.OrdersRoute, 301)
 }
 
 func UpdateOrderHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Update Order")
-	if r.Method == "POST" {
-		sec.IsAuthenticated(w, r)
+	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
 		orderId := r.FormValue("Id")
 		log.Println("OrderId: " + orderId)
 		userId := r.FormValue("UserForUpdate")
@@ -187,6 +187,8 @@ func UpdateOrderHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		UpdateItemsHandler(itemsPage, itemsDB) // TODO
 		http.Redirect(w, r, route.OrdersRoute, 301)
+	} else {
+		http.Redirect(w, r, "/logout", 301)
 	}
 }
 
@@ -222,72 +224,74 @@ func LoadItemsByOrderId(w http.ResponseWriter, r *http.Request) {
 
 func ListOrdersHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("List Orders")
-	sec.IsAuthenticated(w, r)
-	query := "SELECT a.id, a.user_id, b.name, a.ordered_at, a.take_out_at, " +
-		" coalesce(to_char(a.ordered_at,'DD/MM/YYYY'),'') as c_ordered_date," +
-		" coalesce(to_char(a.take_out_at,'DD/MM/YYYY'),'') as c_takeout_date," +
-		" coalesce(to_char(a.ordered_at,'DD/MM/YYYY HH24:MI:SS'),'') as c_ordered_date_time," +
-		" coalesce(to_char(a.take_out_at,'DD/MM/YYYY HH24:MI:SS'),'') as c_takeout_date_time" +
-		" FROM orders a, users b where a.user_id = b.id order by a.take_out_at desc "
-	rows, err := Db.Query(query)
-	log.Println("Query: " + query)
-	sec.CheckInternalServerError(err, w)
-	var orders []mdl.Order
-	var order mdl.Order
-	var i = 1
-	for rows.Next() {
-		err = rows.Scan(
-			&order.Id,
-			&order.UserId,
-			&order.UserName,
-			&order.OrderedAt,
-			&order.TakeOutAt,
-			&order.COrderedAt,
-			&order.CTakeOutAt,
-			&order.COrderedDateTime,
-			&order.CTakeOutDateTime,
-		)
+	if sec.IsAuthenticated(w, r) {
+		query := "SELECT a.id, a.user_id, b.name, a.ordered_at, a.take_out_at, " +
+			" coalesce(to_char(a.ordered_at,'DD/MM/YYYY'),'') as c_ordered_date," +
+			" coalesce(to_char(a.take_out_at,'DD/MM/YYYY'),'') as c_takeout_date," +
+			" coalesce(to_char(a.ordered_at,'DD/MM/YYYY HH24:MI:SS'),'') as c_ordered_date_time," +
+			" coalesce(to_char(a.take_out_at,'DD/MM/YYYY HH24:MI:SS'),'') as c_takeout_date_time" +
+			" FROM orders a, users b where a.user_id = b.id order by a.take_out_at desc "
+		rows, err := Db.Query(query)
+		log.Println("Query: " + query)
 		sec.CheckInternalServerError(err, w)
-		order.Order = i
-		i++
-		orders = append(orders, order)
-	}
-	rows, err = Db.Query("SELECT id, name FROM users order by name")
-	sec.CheckInternalServerError(err, w)
-	var users []mdl.User
-	var user mdl.User
-
-	savedUser := GetUserInCookie(w, r)
-	log.Println("ORDERS Saved User is " + savedUser.Username)
-
-	for rows.Next() {
-		err = rows.Scan(&user.Id, &user.Name)
-		if user.Id == savedUser.Id {
-			user.Selected = true
-		} else {
-			user.Selected = false
+		var orders []mdl.Order
+		var order mdl.Order
+		var i = 1
+		for rows.Next() {
+			err = rows.Scan(
+				&order.Id,
+				&order.UserId,
+				&order.UserName,
+				&order.OrderedAt,
+				&order.TakeOutAt,
+				&order.COrderedAt,
+				&order.CTakeOutAt,
+				&order.COrderedDateTime,
+				&order.CTakeOutDateTime,
+			)
+			sec.CheckInternalServerError(err, w)
+			order.Order = i
+			i++
+			orders = append(orders, order)
 		}
+		rows, err = Db.Query("SELECT id, name FROM users order by name")
 		sec.CheckInternalServerError(err, w)
-		users = append(users, user)
-	}
-	var page mdl.PageOrders
-	page.Users = users
-	rows, err = Db.Query("SELECT id, name FROM produtos order by name")
-	sec.CheckInternalServerError(err, w)
-	var produtos []mdl.Produto
-	var produto mdl.Produto
-	for rows.Next() {
-		err = rows.Scan(&produto.Id, &produto.Name)
+		var users []mdl.User
+		var user mdl.User
+
+		savedUser := GetUserInCookie(w, r)
+		log.Println("ORDERS Saved User is " + savedUser.Username)
+
+		for rows.Next() {
+			err = rows.Scan(&user.Id, &user.Name)
+			if user.Id == savedUser.Id {
+				user.Selected = true
+			} else {
+				user.Selected = false
+			}
+			sec.CheckInternalServerError(err, w)
+			users = append(users, user)
+		}
+		var page mdl.PageOrders
+		page.Users = users
+		rows, err = Db.Query("SELECT id, name FROM produtos order by name")
 		sec.CheckInternalServerError(err, w)
-		produtos = append(produtos, produto)
+		var produtos []mdl.Produto
+		var produto mdl.Produto
+		for rows.Next() {
+			err = rows.Scan(&produto.Id, &produto.Name)
+			sec.CheckInternalServerError(err, w)
+			produtos = append(produtos, produto)
+		}
+		page.Produtos = produtos
+		page.Orders = orders
+		page.AppName = mdl.AppName
+		page.Title = "Pedidos"
+		page.LoggedUser = BuildLoggedUser(savedUser)
+		var tmpl = template.Must(template.ParseGlob("tiles/orders/*"))
+		tmpl.ParseGlob("tiles/*")
+		tmpl.ExecuteTemplate(w, "Main-Orders", page)
+	} else {
+		http.Redirect(w, r, "/logout", 301)
 	}
-	page.Produtos = produtos
-	page.Orders = orders
-	page.AppName = mdl.AppName
-	page.Title = "Pedidos"
-	page.LoggedUser = BuildLoggedUser(savedUser)
-	var tmpl = template.Must(template.ParseGlob("tiles/orders/*"))
-	tmpl.ParseGlob("tiles/*")
-	tmpl.ExecuteTemplate(w, "Main-Orders", page)
-	sec.CheckInternalServerError(err, w)
 }
