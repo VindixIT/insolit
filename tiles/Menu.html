@@ -7,8 +7,23 @@
 	<br>
   <a href="javascript:void(0)" class="closebtn" onclick="navGadget()">&times;</a>
   <a href="#">Sobre</a>
-  {{if (call .LoggedUser.HasPermission "listOrders")}}
-  <a href="/orders">Pedidos</a>
+  {{if (call .LoggedUser.HasPermission "listWorkflows")}}
+  <a href="/workflows">Workflows</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listActions")}}
+  <a href="/actions">Ações</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listStatus")}}
+  <a href="/status">Status</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listRoles")}}
+  <a href="/roles">Papéis</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listFeatures")}}
+  <a href="/features">Funcionalidades</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listUsers")}}
+  <a href="/users">Usuários</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listParques")}}
   <a href="/parques">Parques</a>
@@ -21,24 +36,6 @@
   {{end}}
   {{if (call .LoggedUser.HasPermission "listConcessionarias")}}
   <a href="/concessionarias">Concessionarias</a>
-  {{end}}
-  {{if (call .LoggedUser.HasPermission "listUsers")}}
-  <a href="/usuarioss">Usuários</a>
-  {{end}}
-  {{if (call .LoggedUser.HasPermission "listRoles")}}
-  <a href="/roles">Papéis</a>
-  {{end}}
-  {{if (call .LoggedUser.HasPermission "listFeatures")}}
-  <a href="/features">Funcionalidades</a>
-  {{end}}
-  {{if (call .LoggedUser.HasPermission "listStatus")}}
-  <a href="/status">Status</a>
-  {{end}}
-  {{if (call .LoggedUser.HasPermission "listActions")}}
-  <a href="/atuacoes">Ações</a>
-  {{end}}
-  {{if (call .LoggedUser.HasPermission "listWorkflows")}}
-  <a href="/fluxos">Workflows</a>
   {{end}}
 </div>
 {{end}}

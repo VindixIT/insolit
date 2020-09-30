@@ -2,14 +2,14 @@ package routes
 
 import ()
 
-var OrdersRoute = "/orders"
-var UsersRoute = "/usuarioss"
+var WorkflowsRoute = "/workflows"
+var ActionsRoute = "/actions"
+var StatusRoute = "/status"
+var RolesRoute = "/roles"
+var FeaturesRoute = "/features"
+var UsersRoute = "/users"
 var ProdutosRoute = "/produtos"
 var ParquesRoute = "/parques"
 var ConcessionariasRoute = "/concessionarias"
 var ClientesRoute = "/clientes"
-var RolesRoute = "/roles"
-var FeaturesRoute = "/features"
-var StatusRoute = "/status"
-var ActionsRoute = "/atuacoes"
-var WorkflowsRoute = "/fluxos"
+var OrdersRoute = "/orders"
