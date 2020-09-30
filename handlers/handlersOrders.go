@@ -272,16 +272,16 @@ func ListOrdersHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	var page mdl.PageOrders
 	page.Users = users
-	rows, err = Db.Query("SELECT id, name, qtd, price FROM beers order by name")
+	rows, err = Db.Query("SELECT id, name FROM produtos order by name")
 	sec.CheckInternalServerError(err, w)
-	var beers []mdl.Beer
-	var beer mdl.Beer
+	var produtos []mdl.Produto
+	var produto mdl.Produto
 	for rows.Next() {
-		err = rows.Scan(&beer.Id, &beer.Name, &beer.Qtd, &beer.Price)
+		err = rows.Scan(&produto.Id, &produto.Name)
 		sec.CheckInternalServerError(err, w)
-		beers = append(beers, beer)
+		produtos = append(produtos, produto)
 	}
-	page.Beers = beers
+	page.Produtos = produtos
 	page.Orders = orders
 	page.AppName = mdl.AppName
 	page.Title = "Pedidos"

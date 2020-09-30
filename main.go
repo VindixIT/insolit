@@ -36,6 +36,7 @@ func main() {
 	dpk.Initialize()
 	http.HandleFunc("/", hd.IndexHandler)
 	http.HandleFunc("/login", hd.LoginHandler)
+	http.HandleFunc("/logout", hd.LogoutHandler)
 	// ----------------- WORKFLOWS
 	http.HandleFunc(route.WorkflowsRoute, hd.ListWorkflowsHandler)
 	http.HandleFunc("/createWorkflow", hd.CreateWorkflowHandler)
@@ -61,11 +62,26 @@ func main() {
 	http.HandleFunc("/createRole", hd.CreateRoleHandler)
 	http.HandleFunc("/updateRole", hd.UpdateRoleHandler)
 	http.HandleFunc("/deleteRole", hd.DeleteRoleHandler)
-	// ----------------- BEERS
-	http.HandleFunc(route.BeersRoute, hd.ListBeersHandler)
-	http.HandleFunc("/createBeer", hd.CreateBeerHandler)
-	http.HandleFunc("/updateBeer", hd.UpdateBeerHandler)
-	http.HandleFunc("/deleteBeer", hd.DeleteBeerHandler)
+	// ----------------- PRODUTOS
+	http.HandleFunc(route.ProdutosRoute, hd.ListProdutosHandler)
+	http.HandleFunc("/createProduto", hd.CreateProdutoHandler)
+	http.HandleFunc("/updateProduto", hd.UpdateProdutoHandler)
+	http.HandleFunc("/deleteProduto", hd.DeleteProdutoHandler)
+	// ----------------- CLIENTES
+	http.HandleFunc(route.ClientesRoute, hd.ListClientesHandler)
+	http.HandleFunc("/createCliente", hd.CreateClienteHandler)
+	http.HandleFunc("/updateCliente", hd.UpdateClienteHandler)
+	http.HandleFunc("/deleteCliente", hd.DeleteClienteHandler)
+	// ----------------- PARQUES
+	http.HandleFunc(route.ParquesRoute, hd.ListParquesHandler)
+	http.HandleFunc("/createParque", hd.CreateParqueHandler)
+	http.HandleFunc("/updateParque", hd.UpdateParqueHandler)
+	http.HandleFunc("/deleteParque", hd.DeleteParqueHandler)
+	// ----------------- CONCESSIONARIAS
+	http.HandleFunc(route.ConcessionariasRoute, hd.ListConcessionariasHandler)
+	http.HandleFunc("/createConcessionaria", hd.CreateConcessionariaHandler)
+	http.HandleFunc("/updateConcessionaria", hd.UpdateConcessionariaHandler)
+	http.HandleFunc("/deleteConcessionaria", hd.DeleteConcessionariaHandler)
 	// ----------------- USERS
 	http.HandleFunc(route.UsersRoute, hd.ListUsersHandler)
 	http.HandleFunc("/createUser", hd.CreateUserHandler)

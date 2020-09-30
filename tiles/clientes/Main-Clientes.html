@@ -1,0 +1,12 @@
+{{ define "Main-Clientes" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu" . }}
+{{ template "Delete-Cliente" }}
+{{ template "Edit-Cliente" }}
+{{ template "Create-Cliente" }}
+{{ template "List-Clientes" . }}
+</body>
+</html>
+{{end}}

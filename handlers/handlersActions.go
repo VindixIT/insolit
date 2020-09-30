@@ -193,7 +193,7 @@ func ListActionsHandler(w http.ResponseWriter, r *http.Request) {
 		i++
 		statuss = append(statuss, status)
 	}
-	var page mdl.PageAction
+	var page mdl.PageActions
 	page.AppName = mdl.AppName
 	page.Statuss = statuss
 	page.Actions = actions

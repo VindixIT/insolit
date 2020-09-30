@@ -1,5 +1,5 @@
-{{define "Delete-Produto"}}
-<!-- Delete Produto -->
+{{define "Delete-Concessionaria"}}
+<!-- Delete Concessionaria -->
 <div class="w3-container">
     <div id="delete-form" class="w3-modal">
         <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width: 600px;">
@@ -9,8 +9,8 @@
                 <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
                       onclick="document.getElementById('delete-form').style.display='none'">&times;</span>
             </div>
-            <form class="w3-container" action="/deleteProduto" method="post">
-                <input type="hidden" name="Id" id="ProdutoIdForDelete">
+            <form class="w3-container" action="/deleteConcessionaria" method="post">
+                <input type="hidden" name="Id" id="ConcessionariaIdForDelete">
                 <div class="w3-center">
                     <button class="w3-btn w3-red w3-margin-top w3-margin-bottom" type="submit">Apagar</button>
                     <button type="button" class="w3-btn w3-teal w3-margin-top w3-margin-bottom"

@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-var CookieName = "virtus"
+var CookieName = "insolit"
 var Store = sessions.NewCookieStore([]byte("vindixit123581321"))
 
 func CheckInternalServerError(err error, w http.ResponseWriter) {

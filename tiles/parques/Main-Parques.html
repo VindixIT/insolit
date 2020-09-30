@@ -1,0 +1,12 @@
+{{ define "Main-Parques" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu" . }}
+{{ template "Delete-Parque" }}
+{{ template "Edit-Parque" }}
+{{ template "Create-Parque" }}
+{{ template "List-Parques" . }}
+</body>
+</html>
+{{end}}

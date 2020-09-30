@@ -21,6 +21,14 @@ type Feature struct {
 	Name  string `json:"name"`
 	Code  string `json:"code"`
 }
+type Cliente struct {
+	Order int
+	Id    int64  `json:"id"`
+	Name  string `json:"name"`
+	Endereco string `json:"endereco"`
+	Capacidade string `json:"capacidade"`
+	Cnpj  string `json:"cnpj"`
+}
 
 type Workflow struct {
 	Order int
@@ -46,13 +54,25 @@ type Status struct {
 	Name       string `json:"name"`
 	Stereotype string `json:"stereotype"`
 }
+type Parque struct {
+	Order      int
+	Id         int64  `json:"id"`
+	Name       string `json:"name"`
+	Endereco string `json:"endereco"`
+	Cidade string `json:"cidade"`
+	Estado string `json:"estado"`
+}
+type Concessionaria struct {
+	Order      int
+	Id         int64  `json:"id"`
+	Name       string `json:"name"`
+	Cnpj 	   string `json:"cnpj"`
+}
 
-type Beer struct {
+type Produto struct {
 	Order int
 	Id    int64   `json:"id"`
 	Name  string  `json:"name"`
-	Qtd   int     `json:"qtd"`
-	Price float64 `json:"price"`
 }
 
 type Item struct {
@@ -121,7 +141,7 @@ type PageOrders struct {
 	Title      string
 	UserId     int
 	Orders     []Order
-	Beers      []Beer
+	Produtos      []Produto
 	Users      []User
 	LoggedUser LoggedUser
 }
@@ -134,10 +154,22 @@ type PageUsers struct {
 	LoggedUser LoggedUser
 }
 
-type PageBeers struct {
+type PageProdutos struct {
 	AppName    string
 	Title      string
-	Beers      []Beer
+	Produtos   []Produto
+	LoggedUser LoggedUser
+}
+type PageParques struct {
+	AppName    string
+	Title      string
+	Parques   []Parque
+	LoggedUser LoggedUser
+}
+type PageConcessionarias struct {
+	AppName    string
+	Title      string
+	Concessionarias   []Concessionaria
 	LoggedUser LoggedUser
 }
 
@@ -163,7 +195,7 @@ type PageStatus struct {
 	LoggedUser LoggedUser
 }
 
-type PageAction struct {
+type PageActions struct {
 	AppName    string
 	Title      string
 	Statuss    []Status
@@ -171,11 +203,17 @@ type PageAction struct {
 	LoggedUser LoggedUser
 }
 
-type PageWorkflow struct {
+type PageWorkflows struct {
 	AppName    string
 	Title      string
 	Actions    []Action
 	Roles      []Role
 	Workflows  []Workflow
+	LoggedUser LoggedUser
+}
+type PageClientes struct {
+	AppName    string
+	Title      string
+	Clientes    []Cliente
 	LoggedUser LoggedUser
 }

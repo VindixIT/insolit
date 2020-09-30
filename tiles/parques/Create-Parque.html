@@ -1,18 +1,24 @@
-{{define "Create-Produto"}}
-<!-- Create Produto -->
+{{define "Create-Parque"}}
+<!-- Create Parques -->
 <div class="w3-container">
     <div id="create-form" class="w3-modal">
         <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width: 600px;">
             <!-- head -->
             <div class="w3-container w3-teal">
-                <h2>Criar novo produto</h2>
+                <h2>Criar novo parque</h2>
                 <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
                       onclick="document.getElementById('create-form').style.display='none'">&times;</span>
             </div>
 
-            <form class="w3-container" action="/createProduto" method="post">
+            <form class="w3-container" action="/createParque" method="post">
                 <label class="w3-label">Nome</label>
                 <input class="w3-input" type="text" name="Name" value="">
+                <label class="w3-label">Endereco</label>
+                <input class="w3-input" type="text" name="endereco" value="">
+                <label class="w3-label">Cidade</label>
+                <input class="w3-input" type="text" name="cidade" value="">
+                <label class="w3-label">Estado</label>
+                <input class="w3-input" type="text" name="estado" value="">
                 <button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Criar</button>
             </form>
         </div>

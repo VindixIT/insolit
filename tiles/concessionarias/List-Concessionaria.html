@@ -1,5 +1,5 @@
-{{define "List-Produtos"}}
-<!-- List Produtos -->
+{{define "List-Concessionarias"}}
+<!-- List Concessionarias -->
 <div id="main" class="w3-row-padding">
 		<header class="w3-container w3-center w3-teal">
 		    <div class="aria">
@@ -12,7 +12,7 @@
 				    <h3>{{.Title}}</h3>
 				</div>
 				<div style="margin-top: 10px;text-align: right;z-index:1">
-					{{ $allowed := (call .LoggedUser.HasPermission "createProduto")}}
+					{{ $allowed := (call .LoggedUser.HasPermission "createConcessionaria")}}
 					{{.LoggedUser.User.Name}}
 					{{if $allowed }}
 					    <a href="#" onclick="document.getElementById('create-form').style.display='block'">
@@ -31,21 +31,23 @@
                 <th>Ord</th>
                 <th>Id</th>
                 <th>Nome</th>
+                <th>CNPJ</th>
 				{{if $allowed}}
 				<th>Ações</th>
 				{{end}}
             </tr>
             </thead>
             <tbody>
-            {{range $index, $produto := .Produtos}}
+            {{range $index, $concessionaria := .Concessionarias}}
             <tr>
-                <td>#{{$produto.Order}}</td>
-                <td>{{$produto.Id}}</td>
-                <td>{{$produto.Name}}</td>
+                <td>#{{$concessionaria.Order}}</td>
+                <td>{{$concessionaria.Id}}</td>
+                <td>{{$concessionaria.Name}}</td>
+                <td>{{$concessionaria.CNPJ}}</td>
 				{{if $allowed}}
                 <td>
-                    <button class="w3-btn w3-teal" onclick="editProduto(this);">Editar</button>
-                    <button class="w3-btn w3-red" onclick="deleteProduto(this)">Apagar</button>
+                    <button class="w3-btn w3-teal" onclick="editConcessionaria(this);">Editar</button>
+                    <button class="w3-btn w3-red" onclick="deleteConcessionaria(this)">Apagar</button>
                 </td>
 				{{end}}
             </tr>

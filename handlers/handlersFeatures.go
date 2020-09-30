@@ -125,6 +125,7 @@ func ListFeaturesByRoleIdHandler(roleId string) []mdl.Feature {
 	for rows.Next() {
 		rows.Scan(&feature.Id)
 		features = append(features, feature)
+		log.Println(feature, feature)
 	}
 	return features
 }

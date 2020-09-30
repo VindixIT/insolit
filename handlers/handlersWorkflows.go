@@ -131,7 +131,7 @@ func ListWorkflowsHandler(w http.ResponseWriter, r *http.Request) {
 		i++
 		roles = append(roles, role)
 	}
-	var page mdl.PageWorkflow
+	var page mdl.PageWorkflows
 	page.AppName = mdl.AppName
 	page.Actions = actions
 	page.Roles = roles

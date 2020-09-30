@@ -1,0 +1,12 @@
+{{ define "Main-Concessionarias" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu" . }}
+{{ template "Delete-Concessionaria" }}
+{{ template "Edit-Concessionaria" }}
+{{ template "Create-Concessionaria" }}
+{{ template "List-Concessionarias" . }}
+</body>
+</html>
+{{end}}

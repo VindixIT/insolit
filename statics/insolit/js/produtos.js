@@ -1,21 +1,20 @@
-function updatebeer(e) {
+function editProduto(e) {
     var editForm = document.getElementById('edit-form');
     // display update form
     editForm.style.display = 'block';
-    // get beer id to update
-    var beerId = e.parentNode.parentNode.childNodes[3].innerText;
-    var beerName = e.parentNode.parentNode.childNodes[5].innerText;
-    var beerQtd = e.parentNode.parentNode.childNodes[7].innerText;
-    var beerPrice = e.parentNode.parentNode.childNodes[9].innerText;
-	document.getElementById('beerIdToUpdate').value = beerId;
-    document.getElementById('beerName').value = beerName;
-    document.getElementById('beerQtd').value = beerQtd;
-    document.getElementById('beerPrice').value = beerPrice;
+    // get produto id to update
+    var produtoId = e.parentNode.parentNode.childNodes[3].innerText;
+	alert("produto Id:"+ produtoId);
+    var produtoName = e.parentNode.parentNode.childNodes[5].innerText;
+	alert("produto Name:"+ produtoName);
+	document.getElementById('ProdutoIdForUpdate').value = produtoId;
+    document.getElementById('ProdutoNameForUpdate').value = produtoName;
 }
 
-function deletebeer(e) {
+function deleteProduto(e) {
     var deleteForm = document.getElementById('delete-form');
     deleteForm.style.display = 'block';
-    var beerId = e.parentNode.parentNode.childNodes[3].innerText;
-    document.getElementById('beerIdToDelete').value = beerId;
+    var produtoId = e.parentNode.parentNode.childNodes[3].innerText;
+	alert("produto ID:"+ produtoId);
+    document.getElementById('ProdutoIdForDelete').value = produtoId;
 }

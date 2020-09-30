@@ -15,8 +15,11 @@ var Db *sql.DB
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	if sec.IsAuthenticated(w, r) {
-		http.Redirect(w, r, route.BeersRoute, 200)
+		http.Redirect(w, r, route.ProdutosRoute, 200)
+	} else {
+		http.Redirect(w, r, "/logout", 301)
 	}
+	log.Println("IndexHandler")
 }
 
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
@@ -66,7 +69,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	// Abrindo o Cookie
 	savedUser := GetUserInCookie(w, r)
 	log.Println("MAIN Saved User is " + savedUser.Username)
-	http.Redirect(w, r, route.OrdersRoute, 301)
+	http.Redirect(w, r, route.ProdutosRoute, 301)
 }
 
 func GetUserInCookie(w http.ResponseWriter, r *http.Request) mdl.User {
@@ -93,7 +96,7 @@ func BuildLoggedUser(user mdl.User) mdl.LoggedUser {
 	loggedUser.HasPermission = func(feature string) bool {
 		for _, value := range user.Features {
 			if value.Code == feature {
-				// log.Println("PASSOU: " + feature)
+				log.Println("PASSOU Aqui: " + feature)
 				return true
 			}
 		}

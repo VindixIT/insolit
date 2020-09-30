@@ -13,8 +13,17 @@
   {{if (call .LoggedUser.HasPermission "listUsers")}}
   <a href="/users">Usuários</a>
   {{end}}
-  {{if (call .LoggedUser.HasPermission "listBeers")}}
-  <a href="/beers">Produtos</a>
+  {{if (call .LoggedUser.HasPermission "listClientes")}}
+  <a href="/clientes">Clientes</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listProdutos")}}
+  <a href="/produtos">Produtos</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listParques")}}
+  <a href="/parques">Parques</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listConcessionarias")}}
+  <a href="/concessionarias">Concessionarias</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listRoles")}}
   <a href="/roles">Papéis</a>
@@ -30,9 +39,6 @@
   {{end}}
   {{if (call .LoggedUser.HasPermission "listWorkflows")}}
   <a href="/workflows">Workflows</a>
-  {{end}}
-  {{if (call .LoggedUser.HasPermission "listUsers")}}
-  <a href="/users">Usuários</a>
   {{end}}
 </div>
 {{end}}
