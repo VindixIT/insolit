@@ -242,6 +242,11 @@ func createAdmin() {
 		" 'aria@vindixit.com', '61 984385415', 'Ária Ohashi', 1 " +
 		" WHERE NOT EXISTS (SELECT id FROM users WHERE username = 'aria')"
 	log.Println(query)
+	query = "INSERT INTO users (id, username, password, email, mobile, name, role_id)" +
+		" SELECT 2, 'marcelo', '$2a$10$RGZRB6DZBcMa/pMe4MrPbekkAMs2s9/eDm5Aa6nDauv5t75Yty.xO'," +
+		" 'marcelo@vindixit.com', '61 984385415', 'Marcelo Serra Silva', 1 " +
+		" WHERE NOT EXISTS (SELECT id FROM users WHERE username = 'marcelo')"
+	log.Println(query)
 	db.Exec(query)
 }
 
@@ -341,7 +346,7 @@ func createSeq() {
 		" CACHE 1")
 	// Sequence USERS_ID_SEQ
 	db.Exec("CREATE SEQUENCE IF NOT EXISTS public.users_id_seq " +
-		" START WITH 2" +
+		" START WITH 3" +
 		" INCREMENT BY 1" +
 		" NO MINVALUE" +
 		" NO MAXVALUE" +

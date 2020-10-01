@@ -167,7 +167,7 @@ func DeleteActionHandler(w http.ResponseWriter, r *http.Request) {
 
 func ListActionsHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("List Actions")
-	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
+	if sec.IsAuthenticated(w, r) {
 		query := "SELECT a.id, a.name, a.origin_status_id, b.name as origin_name, a.destination_status_id, c.name as destination_name, a.other_than " +
 			"FROM actions a, status b, status c where a.origin_status_id = b.id and a.destination_status_id = c.id order by id asc"
 		log.Println("List Action -> Query: " + query)
