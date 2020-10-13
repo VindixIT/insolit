@@ -19,7 +19,7 @@ var Db *sql.DB
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	if sec.IsAuthenticated(w, r) {
-		http.Redirect(w, r, route.ParquesRoute, 200)
+		http.Redirect(w, r, route.InicioRoute, 200)
 	} else {
 		http.Redirect(w, r, "/logout", 301)
 	}
@@ -69,7 +69,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	// Abrindo o Cookie
 	savedUser := GetUserInCookie(w, r)
 	log.Println("MAIN Saved User is " + savedUser.Username)
-	http.Redirect(w, r, route.ParquesRoute, 301)
+	http.Redirect(w, r, route.InicioRoute, 301)
 }
 
 func GetUserInCookie(w http.ResponseWriter, r *http.Request) mdl.User {
