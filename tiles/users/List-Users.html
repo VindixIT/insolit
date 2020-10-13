@@ -13,6 +13,7 @@
 				<div style="margin-top: 10px;">
                     <span style="position:absolute; top:34px; right:120px">{{.LoggedUser.User.Name}}</span>
 					{{$allowed := (call .LoggedUser.HasPermission "createUser")}}
+					{{.LoggedUser.User.Name}}
 					{{if $allowed}}
 					    <a style="margin-top: 6px" href="#" onclick="document.getElementById('create-form').style.display='block'">
 							<i class="icon ion-ios-plus-outline w3-xxlarge hoverbtn"></i>

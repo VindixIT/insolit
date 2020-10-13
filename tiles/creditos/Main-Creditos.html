@@ -1,0 +1,12 @@
+{{ define "Main-Creditos" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu-Financeiro" . }}
+{{ template "Delete-Credito" }}
+{{ template "Edit-Credito" . }}
+{{ template "Create-Credito" . }}
+{{ template "List-Creditos" . }}
+</body>
+</html>
+{{end}}

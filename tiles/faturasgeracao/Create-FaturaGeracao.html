@@ -1,0 +1,46 @@
+{{define "Create-FaturaGeracao"}}
+<!-- Create FaturasGeracao -->
+<div class="w3-container">
+    <div id="create-form" class="w3-modal">
+        <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width: 600px;">
+            <!-- head -->
+            <div class="w3-container w3-teal">
+                <h2>Criar nova fatura de geração</h2>
+                <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
+                      onclick="document.getElementById('create-form').style.display='none'">&times;</span>
+            </div>
+
+            <form class="w3-container" action="/createFaturaGeracao" method="post">
+				<label class="w3-label">Contrato</label>
+                <select class="w3-input" name="ContratoForInsert" id="ContratoForInsert">
+					<option value=""></option>
+					{{range $index, $contrato := .ContratosGeracao }}
+		                <option value="{{$contrato.Id}}" {{if eq true $contrato.Selected}} selected="selected"{{end}}>
+							{{$contrato.ClienteName}} - {{$contrato.ContratoConcessionaria}}
+						</option>
+		            {{end}}
+	            </select>
+                <label class="w3-label">Contrato da Concessionária</label>
+                <input class="w3-input" type="text" name="ContratoConcessionaria" value="">
+                <label class="w3-label">Consumo (Mês)</label>
+                <input class="w3-input" type="text" name="ConsumoMes" value="">
+                <label class="w3-label">Energia Gerada (Mês)</label>
+                <input class="w3-input" type="text" name="CreditosMes" value="">
+                <label class="w3-label">Valor</label>
+                <input class="w3-input" type="text" name="Valor" value="">
+                <label class="w3-label">Vencimento Em</label>
+                <input class="w3-input" type="date" name="VencimentoEm" value="">
+                <label class="w3-label">Emissão Em</label>
+                <input class="w3-input" type="date" name="EmissaoEm" value="">
+                <label class="w3-label">Leitura Anterior</label>
+                <input class="w3-input" type="number" name="LeituraAnterior" value="">
+                <label class="w3-label">Leitura Atual</label>
+                <input class="w3-input" type="number" name="LeituraAtual" value="">
+                <label class="w3-label">Pago</label>
+				<input class="w3-input" type="checkbox" name="Pago" value="">
+                <button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Criar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{{end}}

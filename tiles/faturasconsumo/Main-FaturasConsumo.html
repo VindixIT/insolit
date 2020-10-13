@@ -1,0 +1,12 @@
+{{ define "Main-FaturasConsumo" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu-Financeiro" . }}
+{{ template "Delete-FaturaConsumo" }}
+{{ template "Edit-FaturaConsumo" }}
+{{ template "Create-FaturaConsumo" }}
+{{ template "List-FaturasConsumo" . }}
+</body>
+</html>
+{{end}}

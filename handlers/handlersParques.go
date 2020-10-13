@@ -51,7 +51,7 @@ func UpdateParqueHandler(w http.ResponseWriter, r *http.Request) {
 		updtForm.Exec(name, endereco, cidade, estado, id)
 		//log.Println("UPDATE: Id: " + id + " | Name: " + name + " | Endereco: " + endereco + )"
 		//" | Cidade: " + cidade+ " | Estado: " + estado)
-		http.Redirect(w, r, route.ProdutosRoute, 301)
+		http.Redirect(w, r, route.ParquesRoute, 301)
 	} else {
 		http.Redirect(w, r, "/logout", 301)
 	}
@@ -76,28 +76,28 @@ func DeleteParqueHandler(w http.ResponseWriter, r *http.Request) {
 
 func ListParquesHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("List Parques")
-	if sec.IsAuthenticated(w, r) {
-		rows, err := Db.Query("SELECT id, name, endereco, cidade, estado FROM parques order by id asc")
+	//	if sec.IsAuthenticated(w, r) {
+	rows, err := Db.Query("SELECT id, name, endereco, cidade, estado FROM parques order by id asc")
+	sec.CheckInternalServerError(err, w)
+	var parques []mdl.Parque
+	var parque mdl.Parque
+	var i = 1
+	for rows.Next() {
+		err = rows.Scan(&parque.Id, &parque.Name, &parque.Endereco, &parque.Cidade, &parque.Estado)
 		sec.CheckInternalServerError(err, w)
-		var parques []mdl.Parque
-		var parque mdl.Parque
-		var i = 1
-		for rows.Next() {
-			err = rows.Scan(&parque.Id, &parque.Name, &parque.Endereco, &parque.Cidade, &parque.Estado)
-			sec.CheckInternalServerError(err, w)
-			parque.Order = i
-			i++
-			parques = append(parques, parque)
-		}
-		var page mdl.PageParques
-		page.AppName = mdl.AppName
-		page.Parques = parques
-		page.Title = "Parques"
-		page.LoggedUser = BuildLoggedUser(GetUserInCookie(w, r))
-		var tmpl = template.Must(template.ParseGlob("tiles/parques/*"))
-		tmpl.ParseGlob("tiles/*")
-		tmpl.ExecuteTemplate(w, "Main-Parques", page)
-	} else {
-		http.Redirect(w, r, "/logout", 301)
+		parque.Order = i
+		i++
+		parques = append(parques, parque)
 	}
+	var page mdl.PageParques
+	page.AppName = mdl.AppName
+	page.Parques = parques
+	page.Title = "Parques"
+	page.LoggedUser = BuildLoggedUser(GetUserInCookie(w, r))
+	var tmpl = template.Must(template.ParseGlob("tiles/parques/*"))
+	tmpl.ParseGlob("tiles/*")
+	tmpl.ExecuteTemplate(w, "Main-Parques", page)
+	//	} else {
+	//		http.Redirect(w, r, "/logout", 301)
+	//	}
 }

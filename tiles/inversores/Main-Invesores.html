@@ -1,0 +1,12 @@
+{{ define "Main-Inversores" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu-Investimentos" . }}
+{{ template "Delete-Inversor" }}
+{{ template "Edit-Inversor" . }}
+{{ template "Create-Inversor" . }}
+{{ template "List-Inversores" . }}
+</body>
+</html>
+{{end}}

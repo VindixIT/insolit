@@ -1,0 +1,53 @@
+{{define "Create-Usina"}}
+<!-- Create Usinas -->
+<div class="w3-container">
+    <div id="create-form" class="w3-modal">
+        <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width: 600px;">
+            <!-- head -->
+            <div class="w3-container w3-teal">
+                <h2>Criar nova usina</h2>
+                <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
+                      onclick="document.getElementById('create-form').style.display='none'">&times;</span>
+            </div>
+            <form class="w3-container" action="/createUsina" method="post">
+				<label class="w3-label">Parque</label>
+                <select class="w3-input" name="ParqueForInsert" id="ParqueForInsert">
+					<option value=""></option>
+					{{range $index, $parque := .Parques }}
+		                <option value="{{$parque.Id}}" {{if eq true $parque.Selected}} selected="selected"{{end}}>
+							{{$parque.Name}}
+						</option>
+		            {{end}}
+	            </select>  
+				<label class="w3-label">Módulo</label>
+                <select class="w3-input" name="ModuloForInsert" id="ModuloForInsert">
+					<option value=""></option>
+					{{range $index, $modulo := .Modulos }}
+		                <option value="{{$modulo.Id}}" {{if eq true $modulo.Selected}} selected="selected"{{end}}>
+							{{$modulo.Name}}
+						</option>
+		            {{end}}
+	            </select>  
+				<label class="w3-label">Inversor</label>
+                <select class="w3-input" name="InversorForInsert" id="InversorForInsert">
+					<option value=""></option>
+					{{range $index, $inversor := .Inversores }}
+		                <option value="{{$inversor.Id}}" {{if eq true $inversor.Selected}} selected="selected"{{end}}>
+							{{$inversor.Name}}
+						</option>
+		            {{end}}
+	            </select>  
+                <label class="w3-label">Nome</label>
+                <input class="w3-input" type="text" name="Name" value="">
+                <label class="w3-label">Potência</label>
+                <input class="w3-input" type="number" name="Potencia" value="">
+                <label class="w3-label">Potência nominal</label>
+                <input class="w3-input" type="number" name="PotenciaNominal" value="">
+                <label class="w3-label">Energia média</label>
+                <input class="w3-input" type="number" name="EnergiaMedia" value="">
+                <button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Criar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{{end}}

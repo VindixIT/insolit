@@ -1,0 +1,12 @@
+{{ define "Main-FaturasGeracao" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu-Financeiro" . }}
+{{ template "Delete-FaturaGeracao" }}
+{{ template "Edit-FaturaGeracao" }}
+{{ template "Create-FaturaGeracao" }}
+{{ template "List-FaturasGeracao" . }}
+</body>
+</html>
+{{end}}

@@ -1,0 +1,30 @@
+{{ define "Menu-Investimentos" }}
+<div id="mySidenav" class="sidenav">
+	<div sytle="position:absolute;top:0px;left:25px;z-index:1"><br>
+	    <img src="/statics/images/solier.png" alt="Solier" class="logo w3-circle">
+	</div>
+	<br>
+	<br>
+  <a href="javascript:void(0)" class="closebtn" onclick="navGadget()">&times;</a>
+  <a href="#">Sobre</a>
+  <a href="/inicio">Início</a>
+  {{if (call .LoggedUser.HasPermission "listUsinas")}}
+  <a href="/usinas">Usinas</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listInversores")}}
+  <a href="/inversores">Inversores</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listModulos")}}
+  <a href="/modulos">Módulos</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listProdutos")}}
+  <a href="/produtos">Produtos</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listParques")}}
+  <a href="/parques">Parques</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listConcessionarias")}}
+  <a href="/concessionarias">Concessionárias</a>
+  {{end}}
+</div>
+{{end}}

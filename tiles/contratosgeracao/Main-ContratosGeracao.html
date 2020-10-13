@@ -1,0 +1,12 @@
+{{ define "Main-ContratosGeracao" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu-Acordos" . }}
+{{ template "Delete-ContratoGeracao" }}
+{{ template "Edit-ContratoGeracao" . }}
+{{ template "Create-ContratoGeracao" . }}
+{{ template "List-ContratosGeracao" . }}
+</body>
+</html>
+{{end}}

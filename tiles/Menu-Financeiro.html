@@ -1,0 +1,27 @@
+{{ define "Menu-Financeiro" }}
+<div id="mySidenav" class="sidenav">
+	<div sytle="position:absolute;top:0px;left:25px;z-index:1"><br>
+	    <img src="/statics/images/solier.png" alt="Solier" class="logo w3-circle">
+	</div>
+	<br>
+	<br>
+  <a href="javascript:void(0)" class="closebtn" onclick="navGadget()">&times;</a>
+  <a href="#">Sobre</a>
+  <a href="/inicio">Início</a>
+  {{if (call .LoggedUser.HasPermission "listConciliacoes")}}
+  <a href="/conciliacoes">Conciliações</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listFaturasConsumo")}}
+  <a href="/faturasconsumo">Faturas de Consumo</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listFaturasGeracao")}}
+  <a href="/faturasgeracao">Faturas de Geração</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listFaturasReparticao")}}
+  <a href="/faturasreparticao">Faturas de Repartição</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listCreditos")}}
+  <a href="/creditos">Créditos</a>
+  {{end}}
+</div>
+{{end}}

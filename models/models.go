@@ -2,39 +2,10 @@ package models
 
 import (
 	"github.com/lib/pq"
-	"time"
+	//	"time"
 )
 
-var AppName = "InSolIT"
-
-type Role struct {
-	Order    int
-	Id       int64  `json:"id"`
-	Name     string `json:"name"`
-	Selected bool
-	Features []Feature
-}
-
-type Feature struct {
-	Order int
-	Id    int64  `json:"id"`
-	Name  string `json:"name"`
-	Code  string `json:"code"`
-}
-type Cliente struct {
-	Order int
-	Id    int64  `json:"id"`
-	Name  string `json:"name"`
-	Endereco string `json:"endereco"`
-	Capacidade string `json:"capacidade"`
-	Cnpj  string `json:"cnpj"`
-}
-
-type Workflow struct {
-	Order int
-	Id    int64  `json:"id"`
-	Name  string `json:"name"`
-}
+var AppName = "Insolit"
 
 type Action struct {
 	Order         int
@@ -48,65 +19,188 @@ type Action struct {
 	Roles         []Role
 }
 
-type Status struct {
-	Order      int
-	Id         int64  `json:"id"`
-	Name       string `json:"name"`
-	Stereotype string `json:"stereotype"`
-}
-type Parque struct {
-	Order      int
-	Id         int64  `json:"id"`
-	Name       string `json:"name"`
+type Cliente struct {
+	Order    int
+	Id       int64  `json:"id"`
+	Name     string `json:"name"`
 	Endereco string `json:"endereco"`
-	Cidade string `json:"cidade"`
-	Estado string `json:"estado"`
+	Cidade   string `json:"cidade"`
+	Estado   string `json:"estado"`
+	Cnpj     string `json:"cnpj"`
 }
+
 type Concessionaria struct {
-	Order      int
-	Id         int64  `json:"id"`
-	Name       string `json:"name"`
-	Cnpj 	   string `json:"cnpj"`
-}
-
-type Produto struct {
 	Order int
-	Id    int64   `json:"id"`
-	Name  string  `json:"name"`
+	Id    int64  `json:"id"`
+	Name  string `json:"name"`
+	Cnpj  string `json:"cnpj"`
 }
 
-type Item struct {
-	Order     int
-	Id        int64   `json:"id"`
-	IdOrder   int64   `json:"orderId"`
-	BeerId    int64   `json:"beerId"`
-	BeerName  string  `json:"beerName"`
-	Qtt       float64 `json:"qtd"`
-	Price     float64 `json:"price"`
-	ItemValue float64 `json:"value"`
+type Conciliacao struct {
+	Order         int
+	Id            int64  `json:"id"`
+	Credito       int64  `json:"creditoId"`
+	FaturaConsumo int64  `json:"faturaConsumoId"`
+	Name          string `json:"name"`
 }
 
-type Order struct {
-	Order            int
-	Id               int64     `json:"id"`
-	UserId           int64     `json:"clientId"`
-	UserName         string    `json:"clientName`
-	OrderedAt        time.Time `json:"orderedAt`
-	TakeOutAt        time.Time `json:"endAt"`
-	COrderedDateTime string    `json:"corderedDateTime`
-	CTakeOutDateTime string    `json:"ctakeOutDateTime`
-	COrderedAt       string    `json:"corderedAt`
-	CTakeOutAt       string    `json:"ctakeOutAt`
+type ContratoConsumo struct {
+	Order                  int
+	Id                     int64    `json:"id"`
+	ClienteId              int64    `json:"clienteId"`
+	ClienteName            string   `json:"clienteName"`
+	ConcessionariaId       int64    `json:"concessionariaId"`
+	ConcessionariaName     string   `json:"concessionariaName"`
+	UnidadeConsumidora     string   `json:"unidadeConsumidora"`
+	ContratoConcessionaria string   `json:"contratoConcessionaria"`
+	VencimentoEm           NullTime `json:"vencimentoEm"`
+	AssinaturaEm           NullTime `json:"assinaturaEm"`
+}
+
+type ContratoGeracao struct {
+	Order                  int
+	Id                     int64    `json:"id"`
+	ClienteId              int64    `json:"clienteId"`
+	ClienteName            string   `json:"clienteName"`
+	UsinaId                int64    `json:"usinaId"`
+	UsinaName              string   `json:"usinaName"`
+	UnidadeConsumidora     string   `json:"unidadeConsumidora"`
+	ConcessionariaId       int64    `json:"concessionariaId"`
+	ConcessionariaName     string   `json:"concessionariaName"`
+	ContratoConcessionaria string   `json:"contratoConcessionaria"`
+	VencimentoEm           NullTime `json:"vencimentoEm"`
+	AssinaturaEm           NullTime `json:"assinaturaEm"`
+}
+
+type ContratoReparticao struct {
+	Order              int
+	Id                 int64    `json:"id"`
+	ClienteId          int64    `json:"clienteId"`
+	ClienteName        string   `json:"clienteName"`
+	ProdutoId          int64    `json:"usinaId"`
+	ProdutoName        string   `json:"usinaName"`
+	UsinaId            int64    `json:"usinaId"`
+	UsinaName          string   `json:"usinaName"`
+	ContratoInvestidor string   `json:"unidadeConsumidora"`
+	VencimentoEm       NullTime `json:"vencimentoEm"`
+	AssinaturaEm       NullTime `json:"assinaturaEm"`
+}
+
+type Credito struct {
+	Order                int
+	Id                   int64    `json:"id"`
+	ContratoReparticaoId string   `json:"contratoReparticaoId"`
+	EnergiaGerada        float64  `json:"energiaGerada"`
+	Inicio               NullTime `json:"inicio"`
+	Termino              NullTime `json:"termino"`
+}
+
+type FaturaConsumo struct {
+	Order              int
+	Id                 int64    `json:"id"`
+	ContratoConsumoId  int64    `json:"contratoConsumo"`
+	ClienteName        string   `json:"clienteName"`
+	ConcessionariaName string   `json:"concessionariaName"`
+	ConsumoMes         float64  `json:"consumoMes"`
+	CreditoMes         float64  `json:"creditoMes"`
+	SaldoAcumulado     float64  `json:"saldoAcumulado"`
+	VencimentoEm       NullTime `json:"vencimentoEm"`
+	EmissaoEm          NullTime `json:"emissaoEm"`
+	Valor              float64  `json:"valor"`
+	LeituraAnterior    float64  `json:"leituraAnterior"`
+	LeituraAtual       float64  `json:"leituraAtual"`
+	Pago               bool     `json:"pago"`
+}
+
+type FaturaGeracao struct {
+	Order             int
+	Id                int64    `json:"id"`
+	ContratoGeracaoId int64    `json:"contratoGeracao"`
+	ConsumoMes        float64  `json:"consumoMes"`
+	CreditoMes        float64  `json:"creditoMes"`
+	LeituraAnterior   float64  `json:"leituraAnterior"`
+	LeituraAtual      float64  `json:"leituraAtual"`
+	Valor             float64  `json:"valor"`
+	VencimentoEm      NullTime `json:"vencimentoEm"`
+	EmissaoEm         NullTime `json:"emissaoEm"`
+	Pago              bool     `json:"pago"`
+}
+
+type FaturaReparticao struct {
+	Order                int
+	Id                   int64    `json:"id"`
+	ContratoReparticaoId int64    `json:"contratoReparticao"`
+	ConciliacaoId        int64    `json:"conciliacaoId"`
+	ConsumoMes           float64  `json:"consumoMes"`
+	GeracaoMes           float64  `json:"geracaoMes"`
+	LeituraAnterior      float64  `json:"leituraAnterior"`
+	LeituraAtual         float64  `json:"leituraAtual"`
+	Valor                float64  `json:"valor"`
+	VencimentoEm         NullTime `json:"vencimentoEm"`
+	EmissaoEm            NullTime `json:"emissaoEm"`
+	Pago                 bool     `json:"pago"`
+}
+
+type Feature struct {
+	Order int
+	Id    int64  `json:"id"`
+	Name  string `json:"name"`
+	Code  string `json:"code"`
+}
+
+type Inversor struct {
+	Order           int
+	Id              int64  `json:"id"`
+	Modelo          string `json:"modelo"`
+	Fabricante      string `json:"fabricante"`
+	PotenciaNominal string `json:"potenciaNominal"`
+}
+
+type LoggedUser struct {
+	User          User
+	HasPermission func(string) bool
+}
+
+type Modulo struct {
+	Order        int
+	Id           int64  `json:"id"`
+	Modelo       string `json:"modelo"`
+	Fabricante   string `json:"fabricante"`
+	PotenciaPico string `json:"potenciaPico"`
 }
 
 type NullTime struct {
 	pq.NullTime
 }
 
-// NÃO SEI SE VOU USAR AINDA
-type LoggedUser struct {
-	User          User
-	HasPermission func(string) bool
+type Parque struct {
+	Order    int
+	Id       int64  `json:"id"`
+	Name     string `json:"name"`
+	Endereco string `json:"endereco"`
+	Cidade   string `json:"cidade"`
+	Estado   string `json:"estado"`
+}
+
+type Produto struct {
+	Order int
+	Id    int64  `json:"id"`
+	Name  string `json:"name"`
+}
+
+type Role struct {
+	Order    int
+	Id       int64  `json:"id"`
+	Name     string `json:"name"`
+	Selected bool
+	Features []Feature
+}
+
+type Status struct {
+	Order      int
+	Id         int64  `json:"id"`
+	Name       string `json:"name"`
+	Stereotype string `json:"stereotype"`
 }
 
 type User struct {
@@ -123,34 +217,149 @@ type User struct {
 	Selected bool      `json:"selected"`
 }
 
-type Measure struct {
+type Usina struct {
+	Order           int
+	Id              int64  `json:"id"`
+	ParqueId        int64  `json:"parqueId"`
+	ParqueNome      string `json:"parqueNome"`
+	Potencia        string `json:"potencia"`
+	PotenciaNominal string `json:"potenciaNominal"`
+	EnergiaMedia    string `json:"energiaMedia"`
+	InversorId      int64  `json:"inversorId"`
+	InversorNome    string `json:"inversorNome"`
+	ModuloId        int64  `json:"moduloId"`
+	ModuloNome      string `json:"moduloNome"`
+}
+
+type Workflow struct {
 	Order int
 	Id    int64  `json:"id"`
 	Name  string `json:"name"`
 }
 
-type PageMeasures struct {
+type PageActions struct {
 	AppName    string
 	Title      string
-	Measures   []Measure
+	Statuss    []Status
+	Actions    []Action
 	LoggedUser LoggedUser
 }
 
-type PageOrders struct {
+type PageClientes struct {
 	AppName    string
 	Title      string
-	UserId     int
-	Orders     []Order
-	Produtos      []Produto
-	Users      []User
+	Clientes   []Cliente
 	LoggedUser LoggedUser
 }
 
-type PageUsers struct {
+type PageConcessionarias struct {
+	AppName         string
+	Title           string
+	Concessionarias []Concessionaria
+	LoggedUser      LoggedUser
+}
+
+type PageConciliacoes struct {
+	AppName        string
+	Title          string
+	Conciliacoes   []Conciliacao
+	Creditos       []Credito
+	FaturasConsumo []FaturaConsumo
+	LoggedUser     LoggedUser
+}
+
+type PageContratosConsumo struct {
+	AppName          string
+	Title            string
+	ContratosConsumo []ContratoConsumo
+	Concessionarias  []Concessionaria
+	Clientes         []Cliente
+	LoggedUser       LoggedUser
+}
+
+type PageContratosGeracao struct {
+	AppName          string
+	Title            string
+	ContratosGeracao []ContratoGeracao
+	Concessionarias  []Concessionaria
+	Usinas           []Usina
+	Clientes         []Cliente
+	LoggedUser       LoggedUser
+}
+
+type PageContratosReparticao struct {
+	AppName             string
+	Title               string
+	ContratosReparticao []ContratoReparticao
+	Concessionarias     []Concessionaria
+	Usinas              []Usina
+	Clientes            []Cliente
+	LoggedUser          LoggedUser
+}
+
+type PageCreditos struct {
+	AppName             string
+	Title               string
+	Creditos            []Credito
+	ContratosReparticao []ContratoReparticao
+	LoggedUser          LoggedUser
+}
+
+type PageFaturasConsumo struct {
+	AppName          string
+	Title            string
+	ContratosConsumo []ContratoConsumo
+	FaturasConsumo   []FaturaConsumo
+	LoggedUser       LoggedUser
+}
+
+type PageFaturasGeracao struct {
+	AppName          string
+	Title            string
+	ContratosGeracao []ContratoGeracao
+	FaturasGeracao   []FaturaGeracao
+	LoggedUser       LoggedUser
+}
+
+type PageFaturasReparticao struct {
+	AppName             string
+	Title               string
+	ContratosReparticao []ContratoReparticao
+	FaturasReparticao   []FaturaReparticao
+	LoggedUser          LoggedUser
+}
+
+type PageFeatures struct {
 	AppName    string
 	Title      string
-	Users      []User
-	Roles      []Role
+	Features   []Feature
+	LoggedUser LoggedUser
+}
+
+type PageInicio struct {
+	AppName    string
+	Title      string
+	LoggedUser LoggedUser
+}
+
+type PageInversores struct {
+	AppName    string
+	Title      string
+	Inversores []Inversor
+	LoggedUser LoggedUser
+}
+
+type PageModulos struct {
+	AppName    string
+	Title      string
+	Modulos    []Modulo
+	LoggedUser LoggedUser
+}
+
+type PageParques struct {
+	AppName    string
+	Title      string
+	Parques    []Parque
 	LoggedUser LoggedUser
 }
 
@@ -158,18 +367,6 @@ type PageProdutos struct {
 	AppName    string
 	Title      string
 	Produtos   []Produto
-	LoggedUser LoggedUser
-}
-type PageParques struct {
-	AppName    string
-	Title      string
-	Parques   []Parque
-	LoggedUser LoggedUser
-}
-type PageConcessionarias struct {
-	AppName    string
-	Title      string
-	Concessionarias   []Concessionaria
 	LoggedUser LoggedUser
 }
 
@@ -181,13 +378,6 @@ type PageRoles struct {
 	LoggedUser LoggedUser
 }
 
-type PageFeatures struct {
-	AppName    string
-	Title      string
-	Features   []Feature
-	LoggedUser LoggedUser
-}
-
 type PageStatus struct {
 	AppName    string
 	Title      string
@@ -195,11 +385,21 @@ type PageStatus struct {
 	LoggedUser LoggedUser
 }
 
-type PageActions struct {
+type PageUsers struct {
 	AppName    string
 	Title      string
-	Statuss    []Status
-	Actions    []Action
+	Users      []User
+	Roles      []Role
+	LoggedUser LoggedUser
+}
+
+type PageUsinas struct {
+	AppName    string
+	Title      string
+	Inversores []Inversor
+	Modulos    []Modulo
+	Parques    []Parque
+	Usinas     []Usina
 	LoggedUser LoggedUser
 }
 
@@ -209,11 +409,5 @@ type PageWorkflows struct {
 	Actions    []Action
 	Roles      []Role
 	Workflows  []Workflow
-	LoggedUser LoggedUser
-}
-type PageClientes struct {
-	AppName    string
-	Title      string
-	Clientes    []Cliente
 	LoggedUser LoggedUser
 }

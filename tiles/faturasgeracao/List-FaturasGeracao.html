@@ -1,0 +1,71 @@
+{{define "List-FaturasGeracao"}}
+<!-- List FaturasGeracao -->
+<div id="main" class="w3-row-padding">
+		<header class="w3-container w3-center w3-teal">
+		    <div class="aria">
+				<div style="margin-top: 6px;text-align: left;z-index:1">
+		    		<a style="font-size:28px;cursor:pointer" onclick="navGadget()">
+						&#9776; {{.AppName}}
+		    		</a>
+				</div>
+			    <h3>{{.Title}}</h3>
+				<div style="margin-top: 10px;">
+                    <span style="position:absolute; top:34px; right:120px">{{.LoggedUser.User.Name}}</span>
+					{{ $allowed := (call .LoggedUser.HasPermission "createFaturaGeracao")}}
+					{{if $allowed }}
+					    <a style="margin-top: 6px" href="#" onclick="document.getElementById('create-form').style.display='block'">
+							<i class="icon ion-ios-plus-outline w3-xxlarge hoverbtn"></i>
+					    </a>
+					{{end}}
+				    <a style="margin-top: 6px" href="/logout">
+						<span class="icon ion-log-out w3-xxlarge hoverbtn"></span>
+					</a>
+				</div>
+		    </div>
+		</header>
+        <table class="w3-table w3-centered w3-border w3-bordered w3-hoverable">
+            <thead>
+            <tr>
+                <th>Ord</th>
+                <th>Id</th>
+                <th>Cliente</th>
+                <th>Contrato</th>
+                <th>Geracao</th>
+                <th>LeituraAtual</th>
+                <th>Valor</th>
+                <th>Vencimento em</th>
+                <th>Pago</th>
+				{{if $allowed}}
+				<th>Ações</th>
+				{{end}}
+            </tr>
+            </thead>
+            <tbody>
+            {{range $index, $faturaGeracao := .FaturasGeracao}}
+            <tr>
+                <td>#{{$faturaGeracao.Order}}</td>
+                <td>{{$faturaGeracao.Id}}</td>
+                <td>{{$faturaGeracao.ClienteName}}</td>
+                <td>{{$faturaGeracao.ContratoConcessionaria}}</td>
+                <td>{{$faturaGeracao.GeracaoMes}}</td>
+                <td>{{$faturaGeracao.LeituraAtual}}
+					<input type="hidden" value="{{$faturaGeracao.LeituraAnterior}}">
+				</td>
+                <td>{{$faturaGeracao.Valor}}</td>
+                <td>{{$faturaGeracao.VencimentoEm}}
+					<input type="hidden" value="{{$faturaGeracao.EmissaoEm}}">
+				</td>
+                <td>{{$faturaGeracao.Pago}}</td>
+				{{if $allowed}}
+                <td>
+                    <button class="w3-btn w3-teal" onclick="editFaturaGeracao(this);">Editar</button>
+                    <button class="w3-btn w3-red" onclick="deleteFaturaGeracao(this)">Apagar</button>
+                </td>
+				{{end}}
+            </tr>
+            {{end}}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{end}}

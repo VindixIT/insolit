@@ -1,0 +1,12 @@
+{{ define "Main-Usinas" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu-Investimentos" . }}
+{{ template "Delete-Usina" }}
+{{ template "Edit-Usina" . }}
+{{ template "Create-Usina" . }}
+{{ template "List-Usinas" . }}
+</body>
+</html>
+{{end}}

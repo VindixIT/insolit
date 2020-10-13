@@ -1,0 +1,33 @@
+{{ define "Menu-Administracao" }}
+<div id="mySidenav" class="sidenav">
+	<div sytle="position:absolute;top:0px;left:25px;z-index:1"><br>
+	    <img src="/statics/images/solier.png" alt="Solier" class="logo w3-circle">
+	</div>
+	<br>
+	<br>
+  <a href="javascript:void(0)" class="closebtn" onclick="navGadget()">&times;</a>
+  <a href="#">Sobre</a>
+  <a href="/inicio">Início</a>
+  {{if (call .LoggedUser.HasPermission "listUsers")}}
+  <a href="/users">Usuários</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listRoles")}}
+  <a href="/roles">Papéis</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listWorkflows")}}
+  <a href="/workflows">Workflows</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listStatus")}}
+  <a href="/status">Status</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listActions")}}
+  <a href="/actions">Ações</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listFeatures")}}
+  <a href="/features">Funcionalidades</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "listParametros")}}
+  <a href="/parques">Parâmetros</a>
+  {{end}}
+</div>
+{{end}}

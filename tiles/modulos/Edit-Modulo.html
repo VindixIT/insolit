@@ -1,0 +1,26 @@
+{{define "Edit-Modulo"}}
+<!-- Edit Modulo -->
+<div class="w3-container">
+    <div id="edit-form" class="w3-modal">
+        <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width: 600px;">
+            <!-- head -->
+            <div class="w3-container w3-teal">
+                <h2>Editar módulo</h2>
+                <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
+                      onclick="document.getElementById('edit-form').style.display='none'">&times;</span>
+            </div>
+
+            <form class="w3-container" action="/updateModulo" method="post">
+                <input type="hidden" name="Id" id="ModuloIdForUpdate">
+                <label class="w3-label">Modelo</label>
+                <input class="w3-input" type="text" id="ModeloForUpdate" name="Modelo" value="">
+                <label class="w3-label">Fabricante</label>
+                <input class="w3-input" type="text" id="FabricanteForUpdate" name="Fabricante" value="">
+                <label class="w3-label">Potência Pico</label>
+                <input class="w3-input" type="number" id="PotenciaPicoForUpdate" name="PotenciaPico" value="">
+				<button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Salvar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{{end}}

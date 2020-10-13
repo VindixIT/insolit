@@ -1,0 +1,27 @@
+{{ define "Menu-Inicio" }}
+<div id="mySidenav" class="sidenav">
+	<div sytle="position:absolute;top:0px;left:25px;z-index:1"><br>
+	    <img src="/statics/images/solier.png" alt="Solier" class="logo w3-circle">
+	</div>
+	<br>
+	<br>
+  <a href="javascript:void(0)" class="closebtn" onclick="navGadget()">&times;</a>
+  <a href="#">Sobre</a>
+  <a href="/inicio">Início</a>
+  {{if (call .LoggedUser.HasPermission "financeiros")}}
+  <a href="/creditos">Financeiro</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "acordos")}}
+  <a href="/clientes">Acordos</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "investimentos")}}
+  <a href="/usinas">Investimentos</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "relatorios")}}
+  <a href="/relatorios">Relatórios</a>
+  {{end}}
+  {{if (call .LoggedUser.HasPermission "admin")}}
+  <a href="/features">Administração do Sistema</a>
+  {{end}}
+</div>
+{{end}}

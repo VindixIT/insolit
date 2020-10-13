@@ -1,0 +1,12 @@
+{{ define "Main-ContratosReparticao" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu-Acordos" . }}
+{{ template "Delete-ContratoReparticao" }}
+{{ template "Edit-ContratoReparticao" . }}
+{{ template "Create-ContratoReparticao" . }}
+{{ template "List-ContratosReparticao" . }}
+</body>
+</html>
+{{end}}

@@ -1,0 +1,12 @@
+{{ define "Main-FaturasReparticao" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu-Financeiro" . }}
+{{ template "Delete-FaturaReparticao" }}
+{{ template "Edit-FaturaReparticao" . }}
+{{ template "Create-FaturaReparticao" . }}
+{{ template "List-FaturasReparticao" . }}
+</body>
+</html>
+{{end}}

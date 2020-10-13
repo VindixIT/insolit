@@ -7,13 +7,15 @@ function editCliente(e) {
 	//alert("cliente Id:"+ clienteId);
     var clienteName = e.parentNode.parentNode.childNodes[5].innerText;
     var clienteEndereco = e.parentNode.parentNode.childNodes[7].innerText;
-    var clienteCapacidade = e.parentNode.parentNode.childNodes[9].innerText;
-    var clienteCnpj = e.parentNode.parentNode.childNodes[11].innerText;
+    var clienteCidade = e.parentNode.parentNode.childNodes[9].innerText;
+    var clienteEstado = e.parentNode.parentNode.childNodes[11].innerText;
+    var clienteCnpj = e.parentNode.parentNode.childNodes[13].innerText;
 	
 	document.getElementById('ClienteIdForUpdate').value = clienteId;
     document.getElementById('ClienteNameForUpdate').value = clienteName;
     document.getElementById('ClienteEnderecoForUpdate').value = clienteEndereco;
-    document.getElementById('ClienteCapacidadeForUpdate').value = clienteCapacidade;
+    document.getElementById('ClienteCidadeForUpdate').value = clienteCidade;
+    document.getElementById('ClienteEstadoForUpdate').value = clienteEstado;
     document.getElementById('ClienteCnpjForUpdate').value = clienteCnpj;
 }
 

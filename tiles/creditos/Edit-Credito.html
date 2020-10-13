@@ -1,0 +1,35 @@
+{{define "Edit-Credito"}}
+<!-- Edit Credito -->
+<div class="w3-container">
+    <div id="edit-form" class="w3-modal">
+        <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width: 600px;">
+            <!-- head -->
+            <div class="w3-container w3-teal">
+                <h2>Editar crédito</h2>
+                <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
+                      onclick="document.getElementById('edit-form').style.display='none'">&times;</span>
+            </div>
+
+            <form class="w3-container" action="/updateCredito" method="post">
+				<input type="hidden" name="Id" id="CreditoIdForUpdate">
+				<label class="w3-label">Contrato</label>
+                <select class="w3-input" name="ContratoForUpdate" id="ContratoForUpdate">
+					<option value=""></option>
+					{{range $index, $contrato := .ContratosReparticao }}
+		                <option value="{{$contrato.Id}}" {{if eq true $contrato.Selected}} selected="selected"{{end}}>
+							{{$contrato.Name}}
+						</option>
+		            {{end}}
+	            </select>                
+                <label class="w3-label">Energia gerada</label>
+                <input class="w3-input" type="number" id="EnergiaGeradaForUpdate" name="EnergiaGerada" value="">
+                <label class="w3-label">Inicia em</label>
+                <input class="w3-input" type="date" id="IniciaEmForUpdate" name="IniciaEm" value="">
+                <label class="w3-label">Termina em</label>
+                <input class="w3-input" type="date" id="TerminaEmForUpdate" name="TerminaEm" value="">				
+				<button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Salvar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{{end}}

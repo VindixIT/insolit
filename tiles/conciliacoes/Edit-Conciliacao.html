@@ -1,0 +1,36 @@
+{{define "Edit-Credito"}}
+<!-- Edit Credito -->
+<div class="w3-container">
+    <div id="edit-form" class="w3-modal">
+        <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width: 600px;">
+            <!-- head -->
+            <div class="w3-container w3-teal">
+                <h2>Editar crédito</h2>
+                <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
+                      onclick="document.getElementById('edit-form').style.display='none'">&times;</span>
+            </div>
+            <form class="w3-container" action="/updateCredito" method="post">
+				<input type="hidden" name="Id" id="CreditoIdForUpdate">
+				<label class="w3-label">Crédito</label>
+                <select class="w3-input" name="CreditoForInsert" id="CreditoForInsert">
+					<option value=""></option>
+					{{range $index, $credito := .Creditos }}
+		                <option value="{{$credito.Id}}" {{if eq true $credito.Selected}} selected="selected"{{end}}>
+							{{$credito.Name}}
+						</option>
+		            {{end}}
+	            </select>                
+                <select class="w3-input" name="FaturaConsumoForInsert" id="FaturaConsumoForInsert">
+					<option value=""></option>
+					{{range $index, $fatura := .FaturasConsumo }}
+		                <option value="{{$fatura.Id}}" {{if eq true $fatura.Selected}} selected="selected"{{end}}>
+							{{$fatura.Name}}
+						</option>
+		            {{end}}
+	            </select>				
+				<button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Salvar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{{end}}

@@ -1,0 +1,12 @@
+{{ define "Main-Modulos" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu-Investimentos" . }}
+{{ template "Delete-Modulo" }}
+{{ template "Edit-Modulo" . }}
+{{ template "Create-Modulo" . }}
+{{ template "List-Modulos" . }}
+</body>
+</html>
+{{end}}

@@ -1,0 +1,12 @@
+{{ define "Main-ContratosConsumo" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu-Acordos" .LoggedUser }}
+{{ template "Delete-ContratoConsumo" }}
+{{ template "Edit-ContratoConsumo" . }}
+{{ template "Create-ContratoConsumo" . }}
+{{ template "List-ContratosConsumo" . }}
+</body>
+</html>
+{{end}}

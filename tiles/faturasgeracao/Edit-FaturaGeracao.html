@@ -1,0 +1,47 @@
+{{define "Edit-FaturaGeracao"}}
+<!-- Edit FaturaGeracao -->
+<div class="w3-container">
+    <div id="edit-form" class="w3-modal">
+        <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width: 600px;">
+            <!-- head -->
+            <div class="w3-container w3-teal">
+                <h2>Editar fatura de geração</h2>
+                <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
+                      onclick="document.getElementById('edit-form').style.display='none'">&times;</span>
+            </div>
+
+            <form class="w3-container" action="/updateFaturaGeracao" method="post">
+                <input type="hidden" name="Id" id="FaturaGeracaoIdForUpdate">
+				<label class="w3-label">Contrato</label>
+                <select class="w3-input" name="ContratoForUpdate" id="ContratoForUpdate">
+					<option value=""></option>
+					{{range $index, $contrato := .ContratosGeracao }}
+		                <option value="{{$contrato.Id}}" {{if eq true $contrato.Selected}} selected="selected"{{end}}>
+							{{$contrato.ClienteName}} - {{$contrato.ContratoConcessionaria}}
+						</option>
+		            {{end}}
+	            </select>
+                <label class="w3-label">Contrato da Concessionária</label>
+                <input class="w3-input" type="text" id="ContratoConcessionariaForUpdate" name="ContratoConcessionaria" value="">
+                <label class="w3-label">Consumo (Mês)</label>
+                <input class="w3-input" type="text" id="ConsumoMesForUpdate" name="ConsumoMes" value="">
+                <label class="w3-label">Energia Gerada (Mês)</label>
+                <input class="w3-input" type="text" id="CreditosMesForUpdate" name="CreditosMes" value="">
+                <label class="w3-label">Valor</label>
+                <input class="w3-input" type="text" id="ValorForUpdate" name="Valor" value="">
+                <label class="w3-label">Vencimento Em</label>
+                <input class="w3-input" type="date" id="VencimentoEmForUpdate" name="VencimentoEm" value="">
+                <label class="w3-label">Emissão Em</label>
+                <input class="w3-input" type="date" id="EmissaoEmForUpdate" name="EmissaoEm" value="">
+                <label class="w3-label">Leitura Anterior</label>
+                <input class="w3-input" type="number" id="LeituraAnteriorForUpdate" name="LeituraAnterior" value="">
+                <label class="w3-label">Leitura Atual</label>
+                <input class="w3-input" type="number" id="LeituraAtualForUpdate" name="LeituraAtual" value="">
+                <label class="w3-label">Pago</label>
+				<input class="w3-input" type="checkbox" name="Pago" value="">				
+				<button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Salvar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{{end}}

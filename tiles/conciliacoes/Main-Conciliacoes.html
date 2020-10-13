@@ -1,0 +1,12 @@
+{{ define "Main-Conciliacoes" }}
+<html lang="pt">
+	{{ template "Header" .Title }}
+<body>
+{{ template "Menu-Financeiro" . }}
+{{ template "Delete-Conciliacao" }}
+{{ template "Edit-Conciliacao" . }}
+{{ template "Create-Conciliacao" . }}
+{{ template "List-Conciliacoes" . }}
+</body>
+</html>
+{{end}}
