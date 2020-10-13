@@ -25,7 +25,7 @@
                 <select class="w3-input" name="UsinaForUpdate" id="UsinaForUpdate">
 					<option value=""></option>
 					{{range $index, $usina := .Usinas }}
-		                <option value="{{$usina.Id}}" {{if eq true $concessionaria.Selected}} selected="selected"{{end}}>
+		                <option value="{{$usina.Id}}" {{if eq true $usina.Selected}} selected="selected"{{end}}>
 							{{$usina.Name}}
 						</option>
 		            {{end}}

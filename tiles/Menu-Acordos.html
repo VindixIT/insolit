@@ -6,19 +6,19 @@
 	<br>
 	<br>
   <a href="javascript:void(0)" class="closebtn" onclick="navGadget()">&times;</a>
-  <a href="#">Sobre</a>
+  <a href="#">Sobre3</a>
   <a href="/inicio">Início</a>
   {{if (call .LoggedUser.HasPermission "listClientes")}}
-  <a href="/workflows">Clientes</a>
+  <a href="/clientes">Clientes</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listContratosConsumo")}}
-  <a href="/actions">Contratos de Consumo</a>
+  <a href="/contratosconsumo">Contratos de Consumo</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listContratosGeracao")}}
-  <a href="/status">Contratos de Geração</a>
+  <a href="/contratosgeracao">Contratos de Geração</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listContratosReparticao")}}
-  <a href="/roles">Contrato de Repartição</a>
+  <a href="/contratosreparticao">Contrato de Repartição</a>
   {{end}}
 </div>
 {{end}}

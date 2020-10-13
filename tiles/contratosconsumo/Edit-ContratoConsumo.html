@@ -9,6 +9,7 @@
                 <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
                       onclick="document.getElementById('edit-form').style.display='none'">&times;</span>
             </div>
+
             <form class="w3-container" action="/updateContratoConsumo" method="post">
 				<input type="hidden" name="Id" id="ContratoConsumoIdForUpdate">
 				<label class="w3-label">Cliente</label>
@@ -19,7 +20,7 @@
 							{{$cliente.Name}}
 						</option>
 		            {{end}}
-	            </select>   
+	            </select>                
                 <label class="w3-label">Concessionária</label>
                 <select class="w3-input" name="ConcessionariaForUpdate" id="ConcessionariaForUpdate">
 					<option value=""></option>
@@ -29,16 +30,18 @@
 						</option>
 		            {{end}}
 	            </select>
-                <label class="w3-label">Contrato da Concessionária</label>
-                <input class="w3-input" type="text" id="ContratoConcessionariaForUpdate" name="ContratoConcessionaria" value="">
-                <label class="w3-label">Unidade Consumidora</label>
-                <input class="w3-input" type="text" id="UCForUpdate" name="UC" value="">
-                <label class="w3-label">Endereço UC</label>
+				<label class="w3-label">Contrato Concessionária</label>
+                <input class="w3-input" type="text" id="ContratoConcessionariaForUpdate"  name="ContratoConcessionaria" value="">
+				<label class="w3-label">Unidade Consumidora</label>
+                <input class="w3-input" type="text" id="UnidadeConsumidoraForUpdate" name="UnidadeConsumidora" value="">
+				<label class="w3-label">Endereco UC</label>
                 <input class="w3-input" type="text" id="EnderecoUCForUpdate" name="EnderecoUC" value="">
                 <label class="w3-label">Vencimento em</label>
                 <input class="w3-input" type="number" id="VencimentoEmForUpdate" name="VencimentoEm" value="">
                 <label class="w3-label">Assinatura em</label>
                 <input class="w3-input" type="date" id="AssinaturaEmForUpdate" name="AssinaturaEm" value="">
+				<button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Salvar</button>
+            </form>
         </div>
     </div>
 </div>

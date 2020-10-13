@@ -220,6 +220,7 @@ type User struct {
 type Usina struct {
 	Order           int
 	Id              int64  `json:"id"`
+	Name     		string `json:"name"`
 	ParqueId        int64  `json:"parqueId"`
 	ParqueNome      string `json:"parqueNome"`
 	Potencia        string `json:"potencia"`
@@ -291,9 +292,9 @@ type PageContratosReparticao struct {
 	AppName             string
 	Title               string
 	ContratosReparticao []ContratoReparticao
-	Concessionarias     []Concessionaria
-	Usinas              []Usina
 	Clientes            []Cliente
+	Usinas              []Usina
+	Produtos            []Produto
 	LoggedUser          LoggedUser
 }
 

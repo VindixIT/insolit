@@ -10,15 +10,6 @@
                       onclick="document.getElementById('create-form').style.display='none'">&times;</span>
             </div>
             <form class="w3-container" action="/createContratoConsumo" method="post">
-                <label class="w3-label">Concessionária</label>
-                <select class="w3-input" name="ConcessionariaForInsert" id="ConcessionariaForInsert">
-					<option value=""></option>
-					{{range $index, $concessionaria := .Concessionarias }}
-		                <option value="{{$concessionaria.Id}}" {{if eq true $concessionaria.Selected}} selected="selected"{{end}}>
-							{{$concessionaria.Name}}
-						</option>
-		            {{end}}
-	            </select>
 				<label class="w3-label">Cliente</label>
                 <select class="w3-input" name="ClienteForInsert" id="ClienteForInsert">
 					<option value=""></option>
@@ -28,6 +19,15 @@
 						</option>
 		            {{end}}
 	            </select>                
+                <label class="w3-label">Concessionária</label>
+                <select class="w3-input" name="ConcessionariaForInsert" id="ConcessionariaForInsert">
+					<option value=""></option>
+					{{range $index, $concessionaria := .Concessionarias }}
+		                <option value="{{$concessionaria.Id}}" {{if eq true $concessionaria.Selected}} selected="selected"{{end}}>
+							{{$concessionaria.Name}}
+						</option>
+		            {{end}}
+	            </select>
                 <label class="w3-label">Contrato da Concessionária</label>
                 <input class="w3-input" type="text" name="ContratoConcessionaria" value="">
                 <label class="w3-label">Unidade Consumidora</label>

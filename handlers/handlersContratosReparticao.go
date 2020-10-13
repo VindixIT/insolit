@@ -80,27 +80,57 @@ func DeleteContratoReparticaoHandler(w http.ResponseWriter, r *http.Request) {
 func ListContratosReparticaoHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("List ContratosReparticao")
 	if sec.IsAuthenticated(w, r) {
-		rows, err := Db.Query("SELECT id, contrato_investidor FROM contratos_reparticao order by id asc")
-		sec.CheckInternalServerError(err, w)
+		rows, _ := Db.Query("SELECT id, contrato_investidor FROM contratos_reparticao order by id asc")
 		var contratos []mdl.ContratoReparticao
 		var contrato mdl.ContratoReparticao
 		var i = 1
 		for rows.Next() {
-			err = rows.Scan(&contrato.Id, &contrato.ContratoInvestidor)
-			sec.CheckInternalServerError(err, w)
+			rows.Scan(&contrato.Id, &contrato.ContratoInvestidor)
 			contrato.Order = i
 			i++
 			contratos = append(contratos, contrato)
 		}
+		rows, _ = Db.Query("SELECT id, name FROM produtos order by id asc")
+		var produtos []mdl.Produto
+		var produto mdl.Produto
+		i = 1
+		for rows.Next() {
+			rows.Scan(&produto.Id, &produto.Name)
+			produto.Order = i
+			i++
+			produtos = append(produtos, produto)
+		}
+		rows, _ = Db.Query("SELECT id, name FROM clientes order by id asc")
+		var clientes []mdl.Cliente
+		var cliente mdl.Cliente
+		i = 1
+		for rows.Next() {
+			rows.Scan(&cliente.Id, &cliente.Name)
+			cliente.Order = i
+			i++
+			clientes = append(clientes, cliente)
+		}
+		rows, _ = Db.Query("SELECT id, name FROM usinas order by id asc")
+		var usinas []mdl.Usina
+		var usina mdl.Usina
+		i = 1
+		for rows.Next() {
+			rows.Scan(&usina.Id, &usina.Name)
+			usina.Order = i
+			i++
+			usinas = append(usinas, usina)
+		}
 		var page mdl.PageContratosReparticao
 		page.AppName = mdl.AppName
 		page.ContratosReparticao = contratos
+		page.Clientes = clientes
+		page.Produtos = produtos
+		page.Usinas = usinas
 		page.Title = "Contratos de Repartição"
 		page.LoggedUser = BuildLoggedUser(GetUserInCookie(w, r))
 		var tmpl = template.Must(template.ParseGlob("tiles/contratosreparticao/*"))
 		tmpl.ParseGlob("tiles/*")
 		tmpl.ExecuteTemplate(w, "Main-ContratosReparticao", page)
-		sec.CheckInternalServerError(err, w)
 	} else {
 		http.Redirect(w, r, "/logout", 301)
 	}

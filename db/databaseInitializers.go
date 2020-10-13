@@ -782,6 +782,7 @@ func createTable() {
 	db.Exec(
 		" CREATE TABLE IF NOT EXISTS public.usinas (" +
 			" id integer DEFAULT nextval('usinas_id_seq'::regclass)," +
+			" name character varying(255)," +
 			" parque_id integer," +
 			" inversor_id integer," +
 			" modulo_id integer," +

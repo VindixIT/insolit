@@ -8,14 +8,15 @@
 						&#9776; {{.AppName}}
 		    		</a>
 				</div>
-				<div style="text-align: center;margin: auto;position:absolute;width:100%;z-index:0">
-				    <h3>{{.Title}}</h3>
+				<div style="text-align: center;margin: auto;position:absolute;width:100%;z-index:0">				    
 				</div>
+				<h3>{{.Title}}</h3>
 				<div style="margin-top: 10px;">
                     <span style="position:absolute; top:34px; right:120px">{{.LoggedUser.User.Name}}</span>
 					{{$allowed := (call .LoggedUser.HasPermission "createAction")}}
 					{{if $allowed}}
-					    <a style="margin-top: 6px" href="#" onclick="document.getElementById('create-form').style.display='block'">
+					    <a style="margin-top: 6px" href="#" 
+					    	onclick="document.getElementById('create-form').style.display='block'">
 							<i class="icon ion-ios-plus-outline w3-xxlarge hoverbtn"></i>
 					    </a>
 					{{end}}

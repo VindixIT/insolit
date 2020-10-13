@@ -100,7 +100,7 @@ func BuildLoggedUser(user mdl.User) mdl.LoggedUser {
 	var loggedUser mdl.LoggedUser
 	loggedUser.User = user
 	loggedUser.HasPermission = func(permission string) bool {
-		log.Println(permission)
+		//log.Println(permission)
 		query := "SELECT " +
 			"A.feature_id, B.code FROM features_roles A, features B " +
 			"WHERE A.feature_id = B.id AND A.role_id = $1"
@@ -112,9 +112,9 @@ func BuildLoggedUser(user mdl.User) mdl.LoggedUser {
 			features = append(features, feature)
 		}
 		for _, value := range features {
-			log.Println(value.Code)
+			//log.Println(value.Code)
 			if value.Code == permission {
-				log.Println(permission + " encontrada!!!")
+				//log.Println(permission + " encontrada!!!")
 				return true
 			}
 		}

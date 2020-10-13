@@ -94,8 +94,8 @@ func ListContratosConsumoHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		var page mdl.PageContratosConsumo
 		page.AppName = mdl.AppName
-		page.ContratosConsumo = contratos
 		page.Title = "Contratos de Consumo"
+		page.ContratosConsumo = contratos
 		page.LoggedUser = BuildLoggedUser(GetUserInCookie(w, r))
 		var tmpl = template.Must(template.ParseGlob("tiles/contratosconsumo/*"))
 		tmpl.ParseGlob("tiles/*")

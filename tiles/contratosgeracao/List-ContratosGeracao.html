@@ -1,5 +1,5 @@
 {{define "List-ContratosGeracao"}}
-<!-- List ContratosGeracao -->
+<!-- List Contratos Geracao -->
 <div id="main" class="w3-row-padding">
 		<header class="w3-container w3-center w3-teal">
 		    <div class="aria">
@@ -44,14 +44,14 @@
                 <td>#{{$contratoGeracao.Order}}</td>
                 <td>{{$contratoGeracao.Id}}</td>
                 <td>{{$contratoGeracao.ClienteName}}
-					<input type="hidden" value="{{$contratoConsumo.ClienteId}}">
+					<input type="hidden" value="{{$contratoGeracao.ClienteId}}">
 				</td>
                 <td>{{$contratoGeracao.UsinaName}}
-					<input type="hidden" value="{{$contratoConsumo.UsinaId}}">
-					<input type="hidden" value="{{$contratoConsumo.UnidadeConsumidora}}">
+					<input type="hidden" value="{{$contratoGeracao.UsinaId}}">
+					<input type="hidden" value="{{$contratoGeracao.UnidadeConsumidora}}">
 				</td>
                 <td>{{$contratoGeracao.ConcessionariaName}}
-					<input type="hidden" value="{{$contratoConsumo.ConcessionariaId}}">
+					<input type="hidden" value="{{$contratoGeracao.ConcessionariaId}}">
 				</td>
                 <td>{{$contratoGeracao.VencimentoEm}}</td>
                 <td>{{$contratoGeracao.AssinaturaEm}}</td>

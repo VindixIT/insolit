@@ -2,11 +2,11 @@
 <html lang="pt">
 	{{ template "Header" .Title }}
 <body>
-{{ template "Menu-Acordos" .LoggedUser }}
+{{ template "Menu-Acordos" . }}
 {{ template "Delete-ContratoConsumo" }}
 {{ template "Edit-ContratoConsumo" . }}
 {{ template "Create-ContratoConsumo" . }}
-{{ template "List-ContratosConsumo" . }}
+{{ template "List-ContratosConsumo" . }} 
 </body>
 </html>
 {{end}}

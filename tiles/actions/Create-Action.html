@@ -22,7 +22,9 @@
 		            <option value=""></option>
 					{{range $index, $status := .Statuss }}
 		                <option value="{{$status.Id}}">
-							{{$status.Name}}{{if ne $status.Stereotype ""}} (estereótipo: {{$status.Stereotype}}){{end}}
+							{{$status.Name}}{{if ne $status.Stereotype ""}}
+								(estereótipo: {{$status.Stereotype}})
+							{{end}}
 						</option>
 		            {{end}}
 	            </select>
@@ -33,7 +35,9 @@
 					<option value=""></option>
 					{{range $index, $status := .Statuss }}
 		                <option value="{{$status.Id}}">
-							{{$status.Name}}{{if ne $status.Stereotype ""}} (estereótipo: {{$status.Stereotype}}){{end}}
+							{{$status.Name}}{{if ne $status.Stereotype ""}}
+								(estereótipo: {{$status.Stereotype}})
+							{{end}}
 						</option>
 		            {{end}}
 	            </select>
