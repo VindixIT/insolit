@@ -33,7 +33,6 @@ func CreateActionHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err.Error())
 		}
-		sec.CheckInternalServerError(err, w)
 		for _, roleId := range roles {
 			sqlStatement := "INSERT INTO actions_roles(action_id,role_id) VALUES ($1,$2)"
 			Db.QueryRow(sqlStatement, actionId, roleId)
@@ -41,16 +40,13 @@ func CreateActionHandler(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				panic(err.Error())
 			}
-			sec.CheckInternalServerError(err, w)
 		}
-		sec.CheckInternalServerError(err, w)
 		sqlStatement = "INSERT INTO actions_status(action_id,origin_status_id,destination_status_id) VALUES ($1,$2,$3)"
 		Db.QueryRow(sqlStatement, actionId, originStatus[0], destinationStatus[0])
 		sec.CheckInternalServerError(err, w)
 		if err != nil {
 			panic(err.Error())
 		}
-		sec.CheckInternalServerError(err, w)
 		log.Println("INSERT: Id: " + strconv.Itoa(actionId) + " | Name: " + name)
 		http.Redirect(w, r, route.ActionsRoute, 301)
 	} else {

@@ -27,6 +27,7 @@ type Cliente struct {
 	Cidade   string `json:"cidade"`
 	Estado   string `json:"estado"`
 	Cnpj     string `json:"cnpj"`
+	Selected bool 
 }
 
 type Concessionaria struct {
@@ -34,6 +35,7 @@ type Concessionaria struct {
 	Id    int64  `json:"id"`
 	Name  string `json:"name"`
 	Cnpj  string `json:"cnpj"`
+	Selected bool
 }
 
 type Conciliacao struct {
@@ -51,9 +53,9 @@ type ContratoConsumo struct {
 	ClienteName            string   `json:"clienteName"`
 	ConcessionariaId       int64    `json:"concessionariaId"`
 	ConcessionariaName     string   `json:"concessionariaName"`
-	UnidadeConsumidora     string   `json:"unidadeConsumidora"`
 	ContratoConcessionaria string   `json:"contratoConcessionaria"`
-	VencimentoEm           NullTime `json:"vencimentoEm"`
+	UnidadeConsumidora     string   `json:"unidadeConsumidora"`
+	VencimentoEm           int	    `json:"vencimentoEm"`
 	AssinaturaEm           NullTime `json:"assinaturaEm"`
 }
 
