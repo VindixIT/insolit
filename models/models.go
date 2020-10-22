@@ -55,8 +55,9 @@ type ContratoConsumo struct {
 	ConcessionariaName     string   `json:"concessionariaName"`
 	ContratoConcessionaria string   `json:"contratoConcessionaria"`
 	UnidadeConsumidora     string   `json:"unidadeConsumidora"`
+	EnderecoUC			   string   `json:"enderecoUC"`
 	VencimentoEm           int	    `json:"vencimentoEm"`
-	AssinaturaEm           NullTime `json:"assinaturaEm"`
+	AssinaturaEm           string   `json:"assinaturaEm"`
 }
 
 type ContratoGeracao struct {

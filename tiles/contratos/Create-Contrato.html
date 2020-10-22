@@ -10,14 +10,16 @@
             </div>
 
             <form class="w3-container" action="/createContrato" method="post">
-				<select class="w3-input" name="clientes">
+				<label class="w3-label">Clientes</label>
+                <select class="w3-input" name="clientes" id="ClienteForInsert">
 					{{range $index, $cliente := .Clientes }}
 		                <option value="{{$cliente.Id}}">
 							{{$cliente.Name}}
 						</option>
 		            {{end}}
 				</select>
-				<select class="w3-input" name="concessionarias">
+				<label class="w3-label">Concessionarias</label>
+				<select class="w3-input" name="concessionarias" id="ConcessionariaForInsert">
 					{{range $index, $concessionaria := .Concessionarias }}
 		                <option value="{{$concessionaria.Id}}">
 							{{$concessionaria.Name}}
@@ -27,7 +29,7 @@
 				<label class="w3-label">Contrato da Concessionária</label>
                 <input class="w3-input" type="text" name="ContratoConcessionaria" value="">
                 <label class="w3-label">Unidade Consumidora</label>
-                <input class="w3-input" type="text" name="UC" value="">
+                <input class="w3-input" type="text" name="UnidadeConsumidora" value="">
                 <label class="w3-label">Endereço UC</label>
                 <input class="w3-input" type="text" name="EnderecoUC" value="">
                 <label class="w3-label">Vencimento em</label>

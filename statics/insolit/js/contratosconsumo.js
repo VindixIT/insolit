@@ -21,9 +21,10 @@ function editContratoConsumo(e) {
     document.getElementById('AssinaturaEmForUpdate').value = assinaturaEm;
 }
 
-function deleteContratoConsumo(e) {
+function deleteContrato(e) {
     var deleteForm = document.getElementById('delete-form');
     deleteForm.style.display = 'block';
     var contratoId = e.parentNode.parentNode.childNodes[3].innerText;
-    document.getElementById('ContratoConsumoIdForDelete').value = contratoId;
+	alert(contratoId);
+    document.getElementById('ContratoIdForDelete').value = contratoId;
 }

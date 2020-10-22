@@ -1,0 +1,48 @@
+{{define "Edit-ContratoConsumo"}}
+<!-- Edit Contrato Consumo -->
+<div class="w3-container">
+    <div id="edit-form" class="w3-modal">
+        <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width: 600px;">
+            <!-- head -->
+            <div class="w3-container w3-teal">
+                <h2>Editar contrato de consumo</h2>
+                <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
+                      onclick="document.getElementById('edit-form').style.display='none'">&times;</span>
+            </div>
+
+            <form class="w3-container" action="/updateContratoConsumo" method="post">
+				<input type="hidden" name="Id" id="ContratoConsumoIdForUpdate">
+				<label class="w3-label">Cliente</label>
+                <select class="w3-input" name="ClienteForUpdate" id="ClienteForUpdate">
+					<option value=""></option>
+					{{range $index, $cliente := .Clientes }}
+		                <option value="{{$cliente.Id}}" {{if eq true $cliente.Selected}} selected="selected"{{end}}>
+							{{$cliente.Name}}
+						</option>
+		            {{end}}
+	            </select>                
+                <label class="w3-label">Concessionária</label>
+                <select class="w3-input" name="ConcessionariaForUpdate" id="ConcessionariaForUpdate">
+					<option value=""></option>
+					{{range $index, $concessionaria := .Concessionarias }}
+		                <option value="{{$concessionaria.Id}}" {{if eq true $concessionaria.Selected}} selected="selected"{{end}}>
+							{{$concessionaria.Name}}
+						</option>
+		            {{end}}
+	            </select>
+				<label class="w3-label">Contrato Concessionária</label>
+                <input class="w3-input" type="text" id="ContratoConcessionariaForUpdate"  name="ContratoConcessionaria" value="">
+				<label class="w3-label">Unidade Consumidora</label>
+                <input class="w3-input" type="text" id="UnidadeConsumidoraForUpdate" name="UnidadeConsumidora" value="">
+				<label class="w3-label">Endereco UC</label>
+                <input class="w3-input" type="text" id="EnderecoUCForUpdate" name="EnderecoUC" value="">
+                <label class="w3-label">Vencimento em</label>
+                <input class="w3-input" type="number" id="VencimentoEmForUpdate" name="VencimentoEm" value="">
+                <label class="w3-label">Assinatura em</label>
+                <input class="w3-input" type="date" id="AssinaturaEmForUpdate" name="AssinaturaEm" value="">
+				<button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Salvar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{{end}}

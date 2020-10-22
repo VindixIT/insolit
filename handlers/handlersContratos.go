@@ -12,20 +12,15 @@ import (
 
 func CreateContratoHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Create Contrato")
-	ContratoConcessionaria := r.FormValue("ContratoConcessionaria")
-	log.Println(ContratoConcessionaria)
-	UC := r.FormValue("UC")
-	log.Println(UC)
-	EnderecoUC := r.FormValue("EnderecoUC")
-	log.Println(EnderecoUC)
-	VencimentoEm := r.FormValue("VencimentoEm")
-	log.Println(VencimentoEm)
-	AssinaturaEm := r.FormValue("AssinaturaEm")
-	log.Println(AssinaturaEm)
 	clienteId := r.Form["clientes"]
-	log.Println(clienteId[0])
 	concessionariaId := r.Form["concessionarias"]
-	log.Println(concessionariaId[0])
+	ContratoConcessionaria := r.FormValue("ContratoConcessionaria")
+	UnidadeConsumidora := r.FormValue("UnidadeConsumidora")
+	EnderecoUC := r.FormValue("EnderecoUC")
+	VencimentoEm := r.FormValue("VencimentoEm")
+	AssinaturaEm := r.FormValue("AssinaturaEm")
+	//  log.Println(AssinaturaEm)
+	//	log.Println(concessionariaId[0])
 	sqlStatement := "INSERT INTO contratos_consumo(" +
 		" concessionaria_id, cliente_id, " +
 		" contrato_concessionaria, unidade_consumidora, endereco_uc, " +
@@ -33,28 +28,38 @@ func CreateContratoHandler(w http.ResponseWriter, r *http.Request) {
 		" VALUES ($1, $2, $3, $4, $5, $6, $7)"
 	log.Println(sqlStatement)
 	Db.QueryRow(sqlStatement, concessionariaId[0], clienteId[0],
-		ContratoConcessionaria, UC, EnderecoUC,
+		ContratoConcessionaria, UnidadeConsumidora, EnderecoUC,
 		VencimentoEm, AssinaturaEm)
 	http.Redirect(w, r, route.ContratosRoute, 301)
 }
+
+func DeleteContratoHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
+		log.Println("Delete Contrato")
+		id := r.FormValue("Id")
+		sqlStatement := "DELETE FROM contratos_consumo WHERE id=$1"
+		deleteForm, _ := Db.Prepare(sqlStatement)
+		deleteForm.Exec(id)
+		log.Println("DELETE: Id: " + id)
+		http.Redirect(w, r, route.ContratosRoute, 301)
+	} else {
+		http.Redirect(w, r, "/logout", 301)
+	}
+}
+
 
 func ListContratosHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("List ContratosConsumo")
 	if sec.IsAuthenticated(w, r) {
 		query := "SELECT " +
-			"a.id," +
-			"a.concessionaria_id," +
-			"c.name as concessionaria_nome, " +
-			"a.cliente_id, " +
-			"b.name as cliente_nome," +
-			"a.contrato_concessionaria," +
-			"a.unidade_consumidora, " +
-			"a.endereco_uc, " +
-			"a.vencimento, " +
-			"a.assinatura_em " +
-			"FROM contratos_consumo a " +
-			"LEFT JOIN clientes b ON b.id = a.cliente_id " +
-			"LEFT JOIN concessionarias c ON c.id = a.concessionaria_id"
+			" a.id, a.concessionaria_id, " +
+			" c.name as concessionaria_nome, " + 
+			" a.cliente_id, b.name as cliente_nome, " +
+			" a.contrato_concessionaria,a.unidade_consumidora, " +
+			" a.endereco_uc, a.vencimento, " +
+			" to_char(a.assinatura_em, 'DD/MM/YYYY') as assinatura_em " +
+			" FROM contratos_consumo a LEFT JOIN clientes b ON b.id = a.cliente_id " +
+			" LEFT JOIN concessionarias c ON c.id = a.concessionaria_id"
 		log.Println("Query: " + query)
 		rows, _ := Db.Query(query)
 		var contratos []mdl.ContratoConsumo
@@ -62,7 +67,15 @@ func ListContratosHandler(w http.ResponseWriter, r *http.Request) {
 		var i = 1
 		for rows.Next() {
 			rows.Scan(&contrato.Id,
-				&contrato.ContratoConcessionaria)
+				&contrato.ConcessionariaId,
+				&contrato.ConcessionariaName,
+				&contrato.ClienteId,
+				&contrato.ClienteName,
+				&contrato.ContratoConcessionaria,
+				&contrato.UnidadeConsumidora,
+				&contrato.EnderecoUC,
+				&contrato.VencimentoEm,
+				&contrato.AssinaturaEm)
 			contrato.Order = i
 			i++
 			contratos = append(contratos, contrato)

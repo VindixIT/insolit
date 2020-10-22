@@ -26,6 +26,49 @@
 				</div>
 		    </div>
 		</header>
+	       <table class="w3-table w3-centered w3-border w3-bordered w3-hoverable">
+	            <thead>
+		            <tr>
+			                <th>Ord</th>
+			                <th>Id</th>
+			                <th>Concessionária</th>
+			                <th>Cliente</th>
+			                <th>Código</th>
+			                <th>Assinatura em</th>
+			                <th>Vencimento em</th>
+							{{if $allowed}}
+							<th>Ações</th>
+							{{end}}
+		            </tr>
+	            </thead>
+	            <tbody>
+		            {{range $index, $contratoConsumo := .ContratosConsumo}}
+			            <tr>
+			                <td>#{{$contratoConsumo.Order}}</td>
+			                <td>{{$contratoConsumo.Id}}
+			                	<input type="hidden" value="{{$contratoConsumo.ContratoConcessionaria}}">
+			               	</td>
+			                <td>{{$contratoConsumo.ConcessionariaName}}
+			                	<input type="hidden" value="{{$contratoConsumo.ConcessionariaId}}">
+			               	</td>
+			                <td>{{$contratoConsumo.ClienteName}}
+			                	<input type="hidden" value="{{$contratoConsumo.ClienteId}}">
+			                </td>
+			                <td>{{$contratoConsumo.UnidadeConsumidora}}</td>
+			                <td>{{$contratoConsumo.VencimentoEm}}</td>
+			                <td>{{$contratoConsumo.AssinaturaEm}}
+			                	<input type="hidden" value="{{$contratoConsumo.EnderecoUC}}">
+			                </td>
+							{{if $allowed}}
+			                <td>
+			                    <button class="w3-btn w3-teal" onclick="editContrato(this);">Editar</button>
+			                    <button class="w3-btn w3-red" onclick="deleteContrato(this)">Apagar</button>
+			                </td>
+							{{end}}
+			            </tr>
+		            {{end}}
+	            </tbody>
+           	</table>
     </div>
 </div>
 {{end}}
