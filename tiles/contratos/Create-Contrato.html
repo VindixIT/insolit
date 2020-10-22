@@ -1,34 +1,30 @@
-{{define "Create-ContratoConsumo"}}
-<!-- Create Contratos Consumo -->
+{{define "Create-Contrato"}}
 <div class="w3-container">
     <div id="create-form" class="w3-modal">
         <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width: 600px;">
             <!-- head -->
             <div class="w3-container w3-teal">
-                <h2>Criar novo contrato de consumo</h2>
+                <h2>Criar novo contrato</h2>
                 <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
                       onclick="document.getElementById('create-form').style.display='none'">&times;</span>
             </div>
-            <form class="w3-container" action="/createContratoConsumo" method="post">
-				<label class="w3-label">Cliente</label>
-                <select class="w3-input" name="Cliente" id="ClienteForInsert">
-					<option value=""></option>
+
+            <form class="w3-container" action="/createContrato" method="post">
+				<select class="w3-input" name="clientes">
 					{{range $index, $cliente := .Clientes }}
 		                <option value="{{$cliente.Id}}">
 							{{$cliente.Name}}
 						</option>
 		            {{end}}
-	            </select>                
-                <label class="w3-label">Concessionária</label>
-                <select class="w3-input" name="Concessionaria" id="ConcessionariaForInsert">
-					<option value=""></option>
+				</select>
+				<select class="w3-input" name="concessionarias">
 					{{range $index, $concessionaria := .Concessionarias }}
-		                <option value="{{$concessionaria.Id}}" {{if eq true $concessionaria.Selected}} selected="selected"{{end}}>
+		                <option value="{{$concessionaria.Id}}">
 							{{$concessionaria.Name}}
 						</option>
 		            {{end}}
-	            </select>
-                <label class="w3-label">Contrato da Concessionária</label>
+				</select>
+				<label class="w3-label">Contrato da Concessionária</label>
                 <input class="w3-input" type="text" name="ContratoConcessionaria" value="">
                 <label class="w3-label">Unidade Consumidora</label>
                 <input class="w3-input" type="text" name="UC" value="">

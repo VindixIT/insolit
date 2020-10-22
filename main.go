@@ -63,6 +63,9 @@ func main() {
 	r.HandleFunc("/createConciliacao", hd.CreateConciliacaoHandler).Methods("POST")
 	r.HandleFunc("/updateConciliacao", hd.UpdateConciliacaoHandler).Methods("POST")
 	r.HandleFunc("/deleteConciliacao", hd.DeleteConciliacaoHandler).Methods("POST")
+	// ----------------- CONTRATOS
+	r.HandleFunc(route.ContratosRoute, hd.ListContratosHandler).Methods("GET")
+	r.HandleFunc("/createContrato", hd.CreateContratoHandler).Methods("POST")
 	// ----------------- CONTRATOS CONSUMO
 	r.HandleFunc(route.ContratosConsumoRoute, hd.ListContratosConsumoHandler).Methods("GET")
 	r.HandleFunc("/createContratoConsumo", hd.CreateContratoConsumoHandler).Methods("POST")

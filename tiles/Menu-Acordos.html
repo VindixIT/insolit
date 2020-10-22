@@ -6,13 +6,13 @@
 	<br>
 	<br>
   <a href="javascript:void(0)" class="closebtn" onclick="navGadget()">&times;</a>
-  <a href="#">Sobre3</a>
+  <a href="#">Sobre</a>
   <a href="/inicio">Início</a>
   {{if (call .LoggedUser.HasPermission "listClientes")}}
   <a href="/clientes">Clientes</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listContratosConsumo")}}
-  <a href="/contratosconsumo">Contratos de Consumo</a>
+  <a href="/contratos">NOVO Contratos de Consumo</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listContratosGeracao")}}
   <a href="/contratosgeracao">Contratos de Geração</a>
