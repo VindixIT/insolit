@@ -647,7 +647,7 @@ func createTable() {
 			" unidade_consumidora character varying(255)," +
 			" endereco_uc character varying(255)," +
 			" vencimento integer," +
-			" assinatura_em character varying(255) )")
+			" assinatura_em timestamp without time zone )")
 	// Table CONTRATOS GERACAO
 	db.Exec(
 		" CREATE TABLE IF NOT EXISTS public.contratos_geracao (" +

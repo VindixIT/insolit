@@ -23,23 +23,22 @@ func CreateContratoConsumoHandler(w http.ResponseWriter, r *http.Request) {
 		VencimentoEm := r.FormValue("VencimentoEm")
 		AssinaturaEm := r.FormValue("AssinaturaEm")
 		sqlStatement := "INSERT INTO contratos_consumo(" +
-						" concessionaria_id, cliente_id, "+ 
-						" contrato_concessionaria, unidade_consumidora, endereco_uc, " +
-						" vencimento, assinatura_em) " +
-						" VALUES ($1, $2, $3, $4, $5, $6, $7)"
+			" concessionaria_id, cliente_id, " +
+			" contrato_concessionaria, unidade_consumidora, endereco_uc, " +
+			" vencimento, assinatura_em) " +
+			" VALUES ($1, $2, $3, $4, $5, $6, $7)"
 		log.Println(sqlStatement)
 		// id = 0
 		Db.QueryRow(sqlStatement, concessionariaId[0], clienteId[0],
-		contratoConcessionaria, unidadeConsumidora, EnderecoUC,
-		VencimentoEm, AssinaturaEm)
+			contratoConcessionaria, unidadeConsumidora, EnderecoUC,
+			VencimentoEm, AssinaturaEm)
 		//if err != nil {
-			//panic(err.Error())
+		//panic(err.Error())
 		http.Redirect(w, r, route.ContratosConsumoRoute, 301)
 	} else {
 		http.Redirect(w, r, "/logout", 301)
 	}
 }
-
 
 func UpdateContratoConsumoHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
@@ -51,18 +50,18 @@ func UpdateContratoConsumoHandler(w http.ResponseWriter, r *http.Request) {
 		VencimentoEm := r.FormValue("VencimentoEmForUpdate")
 		AssinaturaEm := r.FormValue("AssinaturaEmForUpdate")
 		sqlStatement := "UPDATE contratos_consumo(" +
-						" concessionaria_id, cliente_id, "+ 
-						" contrato_concessionaria, unidade_consumidora, endereco_uc, " +
-						" vencimento, assinatura_em) " +
-						" VALUES ($1, $2, $3, $4, $5, $6, $7)"
+			" concessionaria_id, cliente_id, " +
+			" contrato_concessionaria, unidade_consumidora, endereco_uc, " +
+			" vencimento, assinatura_em) " +
+			" VALUES ($1, $2, $3, $4, $5, $6, $7)"
 		updtForm, err := Db.Prepare(sqlStatement)
 		if err != nil {
 			panic(err.Error())
 		}
 		//sec.CheckInternalServerError(err, w)
-		updtForm.Exec(concessionariaId[0], clienteId[0],contratoConcessionaria, unidadeConsumidora, EnderecoUC,
-		VencimentoEm, AssinaturaEm)
-		log.Println("UPDATE: clienteId: " + clienteId[0] )
+		updtForm.Exec(concessionariaId[0], clienteId[0], contratoConcessionaria, unidadeConsumidora, EnderecoUC,
+			VencimentoEm, AssinaturaEm)
+		log.Println("UPDATE: clienteId: " + clienteId[0])
 		http.Redirect(w, r, route.ContratosConsumoRoute, 301)
 	} else {
 		http.Redirect(w, r, "/logout", 301)
@@ -86,61 +85,64 @@ func DeleteContratoConsumoHandler(w http.ResponseWriter, r *http.Request) {
 func ListContratosConsumoHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("List ContratosConsumo")
 	if sec.IsAuthenticated(w, r) {
-		query := "SELECT "+
-				"a.concessionaria_id," + 
-				"a.id,"+ 
-				"c.name as concessionaria_nome, "+
-				"a.cliente_id, "+
-				"b.name as cliente_nome," + 
-				"a.contrato_concessionaria," + 
-				"a.unidade_consumidora, "+
-				"a.endereco_uc, "+
-				"a.vencimento, "+
-				"a.assinatura_em "+
-				"FROM contratos_consumo a "+ 
-				"LEFT JOIN clientes b ON b.id = a.cliente_id "+
-				"LEFT JOIN concessionarias c ON c.id = a.concessionaria_id"
-		log.Println("Query: " + query)
-		rows, _:= Db.Query(query)
-		var contratos []mdl.ContratoConsumo
-		var contrato mdl.ContratoConsumo
+		query := "SELECT " +
+			"a.id," +
+			"a.concessionaria_id," +
+			"coalesce(c.name,'') as concessionaria_nome, " +
+			"a.cliente_id, " +
+			"coalesce(b.name,'') as cliente_nome, " +
+			"coalesce(a.contrato_concessionaria,''), " +
+			"coalesce(a.unidade_consumidora,''), " +
+			"a.endereco_uc, " +
+			"a.vencimento, " +
+			"coalesce(to_char(a.assinatura_em,'DD/MM/YYYY'),'') " +
+			"FROM contratos_consumo a " +
+			"LEFT JOIN clientes b ON b.id = a.cliente_id " +
+			"LEFT JOIN concessionarias c ON c.id = a.concessionaria_id"
+		log.Println("sql: " + query)
+		rows, _ := Db.Query(query)
+		var contratosConsumo []mdl.ContratoConsumo
+		var contratoConsumo mdl.ContratoConsumo
 		var i = 1
 		for rows.Next() {
-			rows.Scan(&contrato.ConcessionariaId, 
-				&contrato.Id,
-				&contrato.ConcessionariaName,
-				&contrato.ClienteId,
-				&contrato.ContratoConcessionaria,
-				&contrato.UnidadeConsumidora,
-				&contrato.EnderecoUC,
-				&contrato.VencimentoEm,
-				&contrato.AssinaturaEm)
-			contrato.Order = i
+			rows.Scan(
+				&contratoConsumo.Id,
+				&contratoConsumo.ConcessionariaId,
+				&contratoConsumo.ConcessionariaName,
+				&contratoConsumo.ClienteId,
+				&contratoConsumo.ClienteName,
+				&contratoConsumo.ContratoConcessionaria,
+				&contratoConsumo.UnidadeConsumidora,
+				&contratoConsumo.EnderecoUC,
+				&contratoConsumo.VencimentoEm,
+				&contratoConsumo.AssinaturaEm)
+			contratoConsumo.Order = i
 			i++
-			contratos = append(contratos, contrato)
+			log.Println(contratoConsumo)
+			contratosConsumo = append(contratosConsumo, contratoConsumo)
 		}
 		query = "SELECT id, name FROM public.clientes"
-		log.Println("Query cliente: " + query)
+		// log.Println("Query cliente: " + query)
 		rows, _ = Db.Query(query)
 		var clientes []mdl.Cliente
 		var cliente mdl.Cliente
 		i = 1
 		for rows.Next() {
 			rows.Scan(&cliente.Id,
-				 &cliente.Name)
+				&cliente.Name)
 			cliente.Order = i
 			i++
 			clientes = append(clientes, cliente)
 		}
 		query = "SELECT id, name FROM public.concessionarias"
-		log.Println("Query concessionaria: " + query)
+		// log.Println("Query concessionaria: " + query)
 		rows, _ = Db.Query(query)
 		var concessionarias []mdl.Concessionaria
 		var concessionaria mdl.Concessionaria
 		i = 1
 		for rows.Next() {
 			rows.Scan(&concessionaria.Id,
-				 &concessionaria.Name)
+				&concessionaria.Name)
 			concessionaria.Order = i
 			i++
 			concessionarias = append(concessionarias, concessionaria)
@@ -151,7 +153,7 @@ func ListContratosConsumoHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(len(clientes))
 		page.Concessionarias = concessionarias
 		page.Title = "Contratos de Consumo"
-		page.ContratosConsumo = contratos
+		page.ContratosConsumo = contratosConsumo
 		page.LoggedUser = BuildLoggedUser(GetUserInCookie(w, r))
 		var tmpl = template.Must(template.ParseGlob("tiles/contratosconsumo/*"))
 		tmpl.ParseGlob("tiles/*")
