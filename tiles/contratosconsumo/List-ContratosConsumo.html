@@ -42,14 +42,18 @@
             {{range $index, $contratoConsumo := .ContratosConsumo}}
             <tr>
                 <td>#{{$contratoConsumo.Order}}</td>
-                <td>{{$contratoConsumo.Id}}</td>
+                <td>{{$contratoConsumo.Id}}
+					<input type="hidden" value="{{$contratoConsumo.ContratoConcessionaria}}">
+				</td>
                 <td>{{$contratoConsumo.ClienteName}}
                 	<input type="hidden" value="{{$contratoConsumo.ClienteId}}">
                 </td>
                 <td>{{$contratoConsumo.ConcessionariaName}}
                 	<input type="hidden" value="{{$contratoConsumo.ConcessionariaId}}">
                	</td>
-                <td>{{$contratoConsumo.UnidadeConsumidora}}</td>
+                <td>{{$contratoConsumo.UnidadeConsumidora}}
+					<input type="hidden" value="{{$contratoConsumo.EnderecoUC}}">
+				</td>
                 <td>{{$contratoConsumo.AssinaturaEm}}</td>
                 <td>{{$contratoConsumo.VencimentoEm}}</td>
 				{{if $allowed}}

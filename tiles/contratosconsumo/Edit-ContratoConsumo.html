@@ -13,7 +13,7 @@
             <form class="w3-container" action="/updateContratoConsumo" method="post">
 				<input type="hidden" name="Id" id="ContratoConsumoIdForUpdate">
 				<label class="w3-label">Cliente</label>
-                <select class="w3-input" name="ClienteForUpdate" id="ClienteForUpdate">
+                <select class="w3-input" name="ClienteForUpdate" id="ClienteIdForUpdate">
 					<option value=""></option>
 					{{range $index, $cliente := .Clientes }}
 		                <option value="{{$cliente.Id}}" {{if eq true $cliente.Selected}} selected="selected"{{end}}>
@@ -22,7 +22,7 @@
 		            {{end}}
 	            </select>                
                 <label class="w3-label">Concessionária</label>
-                <select class="w3-input" name="ConcessionariaForUpdate" id="ConcessionariaForUpdate">
+                <select class="w3-input" name="ConcessionariaForUpdate" id="ConcessionariaIdForUpdate">
 					<option value=""></option>
 					{{range $index, $concessionaria := .Concessionarias }}
 		                <option value="{{$concessionaria.Id}}" {{if eq true $concessionaria.Selected}} selected="selected"{{end}}>
@@ -31,15 +31,15 @@
 		            {{end}}
 	            </select>
 				<label class="w3-label">Contrato Concessionária</label>
-                <input class="w3-input" type="text" name="ContratoConcessionariaForUpdate"  id="ContratoConcessionaria" value="">
+                <input class="w3-input" type="text" name="ContratoConcessionariaForUpdate"  id="ContratoConcessionariaForUpdate" value="">
 				<label class="w3-label">Unidade Consumidora</label>
-                <input class="w3-input" type="text" name="UnidadeConsumidoraForUpdate" id="UnidadeConsumidora" value="">
+                <input class="w3-input" type="text" name="UnidadeConsumidoraForUpdate" id="UCForUpdate" value="">
 				<label class="w3-label">Endereco UC</label>
-                <input class="w3-input" type="text" name="EnderecoUCForUpdate" id="EnderecoUC" value="">
+                <input class="w3-input" type="text" name="EnderecoUCForUpdate" id="EnderecoUCForUpdate" value="">
                 <label class="w3-label">Vencimento em</label>
-                <input class="w3-input" type="number" name="VencimentoEmForUpdate" id="VencimentoEm" value="">
+                <input class="w3-input" type="number" name="VencimentoEmForUpdate" id="VencimentoEmForUpdate" value="">
                 <label class="w3-label">Assinatura em</label>
-                <input class="w3-input" type="date" name="AssinaturaEmForUpdate" id="AssinaturaEm" value="">
+                <input class="w3-input" type="date" name="AssinaturaEmForUpdate" id="AssinaturaEmForUpdate" value="">
 				<button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Salvar</button>
             </form>
         </div>
