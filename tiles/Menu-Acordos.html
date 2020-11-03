@@ -12,7 +12,7 @@
   <a href="/clientes">Clientes</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listContratosConsumo")}}
-  <a href="/contratos">NOVO Contratos de Consumo</a>
+  <a href="/contratosconsumo">Contratos de Consumo</a>
   {{end}}
   {{if (call .LoggedUser.HasPermission "listContratosGeracao")}}
   <a href="/contratosgeracao">Contratos de Geração</a>

@@ -35,7 +35,7 @@ func dbConn() *sql.DB {
 func main() {
 	sec.Store = sessions.NewCookieStore([]byte("vindixit123581321"))
 	hd.Db = dbConn()
-	// injeta	ndo a variável Authenticated
+	// injetando a variável Authenticated
 	dpk.Initialize()
 	r := mux.NewRouter()
 
@@ -63,10 +63,6 @@ func main() {
 	r.HandleFunc("/createConciliacao", hd.CreateConciliacaoHandler).Methods("POST")
 	r.HandleFunc("/updateConciliacao", hd.UpdateConciliacaoHandler).Methods("POST")
 	r.HandleFunc("/deleteConciliacao", hd.DeleteConciliacaoHandler).Methods("POST")
-	// ----------------- CONTRATOS
-	r.HandleFunc(route.ContratosRoute, hd.ListContratosHandler).Methods("GET")
-	r.HandleFunc("/createContrato", hd.CreateContratoHandler).Methods("POST")
-	r.HandleFunc("/deleteContrato", hd.DeleteContratoHandler).Methods("POST")
 	// ----------------- CONTRATOS CONSUMO
 	r.HandleFunc(route.ContratosConsumoRoute, hd.ListContratosConsumoHandler).Methods("GET")
 	r.HandleFunc("/createContratoConsumo", hd.CreateContratoConsumoHandler).Methods("POST")

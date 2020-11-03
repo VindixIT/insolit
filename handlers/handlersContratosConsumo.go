@@ -12,52 +12,57 @@ import (
 
 func CreateContratoConsumoHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
-		log.Println("Create ContratosConsumo")
-		concessionariaId := r.Form["ConcessionariaForInsert"]
-		log.Println(concessionariaId)
-		log.Println(concessionariaId[0])
-		clienteId := r.Form["ClienteForInsert"]
+		log.Println("Create Contratos Consumo")
+		r.ParseForm()
+		clienteId := r.Form["Cliente"]
+		concessionariaId := r.Form["Concessionaria"]
 		log.Println("clienteId" + clienteId[0])
-		contratoConcessionaria := r.FormValue("contratoConcessionaria")
-		unidadeConsumidora := r.FormValue("unidadeConsumidora")
-		VencimentoEm := r.FormValue("vencimentoEm")
-		AssinaturaEm := r.FormValue("assinaturaEm")
+		contratoConcessionaria := r.FormValue("ContratoConcessionaria")
+		unidadeConsumidora := r.FormValue("UC")
+		EnderecoUC := r.FormValue("EnderecoUC")
+		VencimentoEm := r.FormValue("VencimentoEm")
+		AssinaturaEm := r.FormValue("AssinaturaEm")
 		sqlStatement := "INSERT INTO contratos_consumo(" +
 						" concessionaria_id, cliente_id, "+ 
-						" contrato_concessionaria, unidade_consumidora, " +
+						" contrato_concessionaria, unidade_consumidora, endereco_uc, " +
 						" vencimento, assinatura_em) " +
-						" VALUES ($1, $2, $3, $4)"
+						" VALUES ($1, $2, $3, $4, $5, $6, $7)"
 		log.Println(sqlStatement)
-		id := 0
-		err := Db.QueryRow(sqlStatement,concessionariaId[0], clienteId[0], 
-			contratoConcessionaria, unidadeConsumidora,
-			VencimentoEm, AssinaturaEm).Scan(&id)
-		if err != nil {
-			panic(err.Error())
-		}
+		// id = 0
+		Db.QueryRow(sqlStatement, concessionariaId[0], clienteId[0],
+		contratoConcessionaria, unidadeConsumidora, EnderecoUC,
+		VencimentoEm, AssinaturaEm)
+		//if err != nil {
+			//panic(err.Error())
 		http.Redirect(w, r, route.ContratosConsumoRoute, 301)
 	} else {
 		http.Redirect(w, r, "/logout", 301)
 	}
 }
 
+
 func UpdateContratoConsumoHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
-		log.Println("Update ContratoConsumo")
-		id := r.FormValue("Id")
-		name := r.FormValue("Name")
-		cnpj := r.FormValue("Cnpj")
-		log.Println("name: " + name)
-		sqlStatement := "UPDATE contratos_consumo SET name=$1, " +
-		 "cnpj=$2 WHERE id=$3"
+		clienteId := r.Form["ClienteForUpdate"]
+		concessionariaId := r.Form["ConcessionariaForUpdate"]
+		contratoConcessionaria := r.FormValue("ContratoConcessionariaForUpdate")
+		unidadeConsumidora := r.FormValue("UnidadeConsumidoraForUpdate")
+		EnderecoUC := r.FormValue("EnderecoUCForUpdate")
+		VencimentoEm := r.FormValue("VencimentoEmForUpdate")
+		AssinaturaEm := r.FormValue("AssinaturaEmForUpdate")
+		sqlStatement := "UPDATE contratos_consumo(" +
+						" concessionaria_id, cliente_id, "+ 
+						" contrato_concessionaria, unidade_consumidora, endereco_uc, " +
+						" vencimento, assinatura_em) " +
+						" VALUES ($1, $2, $3, $4, $5, $6, $7)"
 		updtForm, err := Db.Prepare(sqlStatement)
-		sec.CheckInternalServerError(err, w)
 		if err != nil {
 			panic(err.Error())
 		}
-		sec.CheckInternalServerError(err, w)
-		updtForm.Exec(name, cnpj, id)
-		log.Println("UPDATE: Id: " + id + " | Name: " + name + " |CNPJ: " + cnpj)
+		//sec.CheckInternalServerError(err, w)
+		updtForm.Exec(concessionariaId[0], clienteId[0],contratoConcessionaria, unidadeConsumidora, EnderecoUC,
+		VencimentoEm, AssinaturaEm)
+		log.Println("UPDATE: clienteId: " + clienteId[0] )
 		http.Redirect(w, r, route.ContratosConsumoRoute, 301)
 	} else {
 		http.Redirect(w, r, "/logout", 301)
@@ -69,12 +74,8 @@ func DeleteContratoConsumoHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("Delete ContratoConsumo")
 		id := r.FormValue("Id")
 		sqlStatement := "DELETE FROM contratos_consumo WHERE id=$1"
-		deleteForm, err := Db.Prepare(sqlStatement)
-		if err != nil {
-			panic(err.Error())
-		}
+		deleteForm, _ := Db.Prepare(sqlStatement)
 		deleteForm.Exec(id)
-		sec.CheckInternalServerError(err, w)
 		log.Println("DELETE: Id: " + id)
 		http.Redirect(w, r, route.ContratosConsumoRoute, 301)
 	} else {
@@ -86,8 +87,8 @@ func ListContratosConsumoHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("List ContratosConsumo")
 	if sec.IsAuthenticated(w, r) {
 		query := "SELECT "+
-				"a.id,"+ 
 				"a.concessionaria_id," + 
+				"a.id,"+ 
 				"c.name as concessionaria_nome, "+
 				"a.cliente_id, "+
 				"b.name as cliente_nome," + 
@@ -105,8 +106,15 @@ func ListContratosConsumoHandler(w http.ResponseWriter, r *http.Request) {
 		var contrato mdl.ContratoConsumo
 		var i = 1
 		for rows.Next() {
-			rows.Scan(&contrato.Id,
-				&contrato.ContratoConcessionaria)
+			rows.Scan(&contrato.ConcessionariaId, 
+				&contrato.Id,
+				&contrato.ConcessionariaName,
+				&contrato.ClienteId,
+				&contrato.ContratoConcessionaria,
+				&contrato.UnidadeConsumidora,
+				&contrato.EnderecoUC,
+				&contrato.VencimentoEm,
+				&contrato.AssinaturaEm)
 			contrato.Order = i
 			i++
 			contratos = append(contratos, contrato)
@@ -140,6 +148,7 @@ func ListContratosConsumoHandler(w http.ResponseWriter, r *http.Request) {
 		var page mdl.PageContratosConsumo
 		page.AppName = mdl.AppName
 		page.Clientes = clientes
+		log.Println(len(clientes))
 		page.Concessionarias = concessionarias
 		page.Title = "Contratos de Consumo"
 		page.ContratosConsumo = contratos

@@ -11,7 +11,7 @@
 			    <h3>{{.Title}}</h3>
 				<div style="margin-top: 10px;">
                     <span style="position:absolute; top:34px; right:120px">{{.LoggedUser.User.Name}}</span>
-					{{ $allowed := (call .LoggedUser.HasPermission "createContratoConsumo")}}
+					{{$allowed := (call .LoggedUser.HasPermission "createContratoConsumo")}}
 					{{if $allowed }}
 					    <a style="margin-top: 6px" href="#" onclick="document.getElementById('create-form').style.display='block'">
 							<i class="icon ion-ios-plus-outline w3-xxlarge hoverbtn"></i>
@@ -28,7 +28,7 @@
             <tr>
                 <th>Ord</th>
                 <th>Id</th>
-                <th>Cliente2</th>
+                <th>Cliente</th>
                 <th>Concessionária</th>
                 <th>Código</th>
                 <th>Assinatura em</th>
@@ -42,25 +42,22 @@
             {{range $index, $contratoConsumo := .ContratosConsumo}}
             <tr>
                 <td>#{{$contratoConsumo.Order}}</td>
-                <td>{{$contratoConsumo.Id}}
-               	</td>
-                <td>{{$contratoConsumo.ConcessionariaName}}
-                	<input type="hidden" value="{{$contratoConsumo.ConcessionariaId}}">
-               	</td>
+                <td>{{$contratoConsumo.Id}}</td>
                 <td>{{$contratoConsumo.ClienteName}}
                 	<input type="hidden" value="{{$contratoConsumo.ClienteId}}">
                 </td>
+                <td>{{$contratoConsumo.ConcessionariaName}}
+                	<input type="hidden" value="{{$contratoConsumo.ConcessionariaId}}">
+               	</td>
                 <td>{{$contratoConsumo.UnidadeConsumidora}}</td>
+                <td>{{$contratoConsumo.AssinaturaEm}}</td>
                 <td>{{$contratoConsumo.VencimentoEm}}</td>
-                <td>{{$contratoConsumo.AssinaturaEm}}
-                	<input type="hidden" value="{{$contratoConsumo.EnderecoUnidadeConsumidora}}">
-                </td>
 				{{if $allowed}}
                 <td>
                     <button class="w3-btn w3-teal" onclick="editContratoConsumo(this);">Editar</button>
                     <button class="w3-btn w3-red" onclick="deleteContratoConsumo(this)">Apagar</button>
                 </td>
-				{{end}}
+				{{end}} 
             </tr>
             {{end}}
             </tbody>

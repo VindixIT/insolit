@@ -11,9 +11,9 @@ function editContratoConsumo(e) {
     var vencimentoEm = e.parentNode.parentNode.childNodes[11].innerText;
     var assinaturaEm = e.parentNode.parentNode.childNodes[13].innerText;
 	var enderecoUnidadeConsumidora = e.parentNode.parentNode.childNodes[13].childNodes[1].value;
-	document.getElementById('ContratoConsumoIdForUpdate').value = contratoId;
-    document.getElementById('ClienteForUpdate').value = clienteId;
-    document.getElementById('ConcessionariaForUpdate').value = concessionariaId;
+	document.getElementById('ContratoIdForUpdate').value = contratoId;
+    document.getElementById('ClienteIdForUpdate').value = clienteId;
+    document.getElementById('ConcessionariaIdForUpdate').value = concessionariaId;
 	document.getElementById('ContratoConcessionariaForUpdate').value = contratoConcessionariaId;
     document.getElementById('UCForUpdate').value = unidadeConsumidora;
     document.getElementById('EnderecoUCForUpdate').value = enderecoUnidadeConsumidora;
@@ -21,7 +21,7 @@ function editContratoConsumo(e) {
     document.getElementById('AssinaturaEmForUpdate').value = assinaturaEm;
 }
 
-function deleteContrato(e) {
+function deleteContratoConsumo(e) {
     var deleteForm = document.getElementById('delete-form');
     deleteForm.style.display = 'block';
     var contratoId = e.parentNode.parentNode.childNodes[3].innerText;

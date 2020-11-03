@@ -30,7 +30,37 @@ func CreateContratoHandler(w http.ResponseWriter, r *http.Request) {
 	Db.QueryRow(sqlStatement, concessionariaId[0], clienteId[0],
 		ContratoConcessionaria, UnidadeConsumidora, EnderecoUC,
 		VencimentoEm, AssinaturaEm)
-	http.Redirect(w, r, route.ContratosRoute, 301)
+	http.Redirect(w, r, route.ContratosConsumoRoute, 301)
+}
+
+func UpdateContratoHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
+		log.Println("Update ContratoConsumo")
+		id := r.FormValue("Id")
+		clienteId := r.Form["clientes"]
+		concessionariaId := r.Form["concessionarias"]
+		ContratoConcessionaria := r.FormValue("ContratoConcessionaria")
+		UnidadeConsumidora := r.FormValue("UnidadeConsumidora")
+		EnderecoUC := r.FormValue("EnderecoUC")
+		VencimentoEm := r.FormValue("VencimentoEm")
+		AssinaturaEm := r.FormValue("AssinaturaEm")
+		sqlStatement := "UPDATE contratos_consumo SET " +
+			" concessionaria_id= $1," +
+			" cliente_id= $2, " +
+			" contrato_concessionaria =$3, unidade_consumidora= $4 , endereco_uc= $5, " +
+			" vencimento =$6, assinatura_em =$7 WHERE id = $8 " 
+		updtForm, err := Db.Prepare(sqlStatement)
+		sec.CheckInternalServerError(err, w)
+		if err != nil {
+			panic(err.Error())
+		}
+		sec.CheckInternalServerError(err, w)
+		updtForm.Exec(clienteId, concessionariaId, ContratoConcessionaria, UnidadeConsumidora, EnderecoUC, VencimentoEm, AssinaturaEm, id)
+		log.Println("in UPDATE: id: " + id )
+		http.Redirect(w, r, route.ContratosConsumoRoute, 301)
+	} else {
+		http.Redirect(w, r, "/logout", 301)
+	}
 }
 
 func DeleteContratoHandler(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +71,7 @@ func DeleteContratoHandler(w http.ResponseWriter, r *http.Request) {
 		deleteForm, _ := Db.Prepare(sqlStatement)
 		deleteForm.Exec(id)
 		log.Println("DELETE: Id: " + id)
-		http.Redirect(w, r, route.ContratosRoute, 301)
+		http.Redirect(w, r, route.ContratosConsumoRoute, 301)
 	} else {
 		http.Redirect(w, r, "/logout", 301)
 	}

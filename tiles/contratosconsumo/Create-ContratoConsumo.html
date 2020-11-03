@@ -1,5 +1,4 @@
 {{define "Create-ContratoConsumo"}}
-<!-- Create Contratos Consumo -->
 <div class="w3-container">
     <div id="create-form" class="w3-modal">
         <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width: 600px;">
@@ -10,7 +9,7 @@
                       onclick="document.getElementById('create-form').style.display='none'">&times;</span>
             </div>
             <form class="w3-container" action="/createContratoConsumo" method="post">
-				<label class="w3-label">Cliente</label>
+				<label class="w3-label">Clientes</label>
                 <select class="w3-input" name="Cliente" id="ClienteForInsert">
 					<option value=""></option>
 					{{range $index, $cliente := .Clientes }}
