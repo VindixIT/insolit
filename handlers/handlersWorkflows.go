@@ -89,13 +89,11 @@ func ListWorkflowsHandler(w http.ResponseWriter, r *http.Request) {
 		query := "SELECT id, name FROM workflows order by id asc"
 		log.Println("List WF -> Query: " + query)
 		rows, err := Db.Query(query)
-		sec.CheckInternalServerError(err, w)
 		var workflows []mdl.Workflow
 		var workflow mdl.Workflow
 		var i = 1
 		for rows.Next() {
 			err = rows.Scan(&workflow.Id, &workflow.Name)
-			sec.CheckInternalServerError(err, w)
 			workflow.Order = i
 			i++
 			workflows = append(workflows, workflow)

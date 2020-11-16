@@ -39,6 +39,7 @@ func main() {
 	dpk.Initialize()
 	r := mux.NewRouter()
 
+	// ----------------- LOG
 	r.HandleFunc("/", hd.IndexHandler).Methods("GET")
 	r.HandleFunc("/login", hd.LoginHandler).Methods("POST")
 	r.HandleFunc("/logout", hd.LogoutHandler).Methods("GET")

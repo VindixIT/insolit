@@ -27,14 +27,14 @@ type Cliente struct {
 	Cidade   string `json:"cidade"`
 	Estado   string `json:"estado"`
 	Cnpj     string `json:"cnpj"`
-	Selected bool 
+	Selected bool
 }
 
 type Concessionaria struct {
-	Order int
-	Id    int64  `json:"id"`
-	Name  string `json:"name"`
-	Cnpj  string `json:"cnpj"`
+	Order    int
+	Id       int64  `json:"id"`
+	Name     string `json:"name"`
+	Cnpj     string `json:"cnpj"`
 	Selected bool
 }
 
@@ -48,16 +48,16 @@ type Conciliacao struct {
 
 type ContratoConsumo struct {
 	Order                  int
-	Id                     int64    `json:"id"`
-	ClienteId              int64    `json:"clienteId"`
-	ClienteName            string   `json:"clienteName"`
-	ConcessionariaId       int64    `json:"concessionariaId"`
-	ConcessionariaName     string   `json:"concessionariaName"`
-	ContratoConcessionaria string   `json:"contratoConcessionaria"`
-	UnidadeConsumidora     string   `json:"unidadeConsumidora"`
-	EnderecoUC			   string   `json:"enderecoUC"`
-	VencimentoEm           int	    `json:"vencimentoEm"`
-	AssinaturaEm           string   `json:"assinaturaEm"`
+	Id                     int64  `json:"id"`
+	ClienteId              int64  `json:"clienteId"`
+	ClienteName            string `json:"clienteName"`
+	ConcessionariaId       int64  `json:"concessionariaId"`
+	ConcessionariaName     string `json:"concessionariaName"`
+	ContratoConcessionaria string `json:"contratoConcessionaria"`
+	UnidadeConsumidora     string `json:"unidadeConsumidora"`
+	EnderecoUC             string `json:"enderecoUC"`
+	VencimentoEm           int    `json:"vencimentoEm"`
+	AssinaturaEm           string `json:"assinaturaEm"`
 }
 
 type ContratoGeracao struct {
@@ -223,11 +223,12 @@ type User struct {
 type Usina struct {
 	Order           int
 	Id              int64  `json:"id"`
-	Name     		string `json:"name"`
+	Name            string `json:"name"`
 	ParqueId        int64  `json:"parqueId"`
 	ParqueNome      string `json:"parqueNome"`
 	Potencia        string `json:"potencia"`
 	PotenciaNominal string `json:"potenciaNominal"`
+	PotenciaPico    string `json:"potenciaPico"`
 	EnergiaMedia    string `json:"energiaMedia"`
 	InversorId      int64  `json:"inversorId"`
 	InversorNome    string `json:"inversorNome"`

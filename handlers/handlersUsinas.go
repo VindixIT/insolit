@@ -7,26 +7,32 @@ import (
 	sec "insolit/security"
 	"log"
 	"net/http"
-	"strconv"
+	//"strconv"
 )
 
 func CreateUsinaHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
-		log.Println("Create Usinas")
-		name := r.FormValue("Name")
-		endereco := r.FormValue("Endereco")
-		cidade := r.FormValue("Cidade")
-		estado := r.FormValue("Estado")
-		sqlStatement := "INSERT INTO usinas(name, endereco, cidade, estado) VALUES ($1,$2,$3,$4) RETURNING id"
-		id := 0
-		err := Db.QueryRow(sqlStatement, name, endereco, cidade, estado).Scan(&id)
-		sec.CheckInternalServerError(err, w)
-		if err != nil {
-			panic(err.Error())
-		}
-		sec.CheckInternalServerError(err, w)
-		//		log.Println("INSERT: Id: " + strconv.Itoa(id) + " | Name: " + name + " | Qtd: " + qtd + " | Price: " + price)
-		log.Println("INSERT: Id: " + strconv.Itoa(id) + " | Name: " + name)
+		log.Println("Create Contratos Consumo")
+		//id := r.FormValue("Id")
+		r.ParseForm()
+		parqueId := r.Form["ParqueInsert"]
+		moduloId := r.Form["ModuloInsert"]
+		inversorId := r.Form["InversorInsert"]
+		log.Println("ParqueInsert" + parqueId[0])
+		nome := r.FormValue("Name")
+		potencia := r.FormValue("Potencia")
+		potenciaNominal := r.FormValue("PotenciaNominal")
+		energiaMedia := r.FormValue("EnergiaMedia")
+		sqlStatement := "INSERT INTO usinas(" +
+			" name,parque_id, inversor_id, modulo_id, " +
+			" potencia, potencia_nominal, energia_media) " +
+			" VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id"
+		log.Println(sqlStatement)
+		// id = 0
+		Db.QueryRow(sqlStatement, parqueId[0], moduloId[0], inversorId[0],
+			nome, potencia, potenciaNominal, energiaMedia)
+		//if err != nil {
+		//panic(err.Error())
 		http.Redirect(w, r, route.UsinasRoute, 301)
 	} else {
 		http.Redirect(w, r, "/logout", 301)
@@ -37,19 +43,29 @@ func UpdateUsinaHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
 		log.Println("Update Usina")
 		id := r.FormValue("Id")
-		name := r.FormValue("Name")
-		endereco := r.FormValue("Endereco")
-		cidade := r.FormValue("Cidade")
-		estado := r.FormValue("Estado")
-		sqlStatement := "UPDATE usinas SET name=$1, endereco=$2, cidade=$3, estado=$4 WHERE id=$5"
+		r.ParseForm()
+		parqueId := r.Form["ParqueForInsert"]
+		moduloId := r.Form["ModuloForInsert"]
+		inversorId := r.Form["InversorForInsert"]
+		//log.Println("ParqueForInsert" + parqueId[0])
+		nome := r.FormValue("Name")
+		potencia := r.FormValue("Potencia")
+		potenciaNominal := r.FormValue("PotenciaNominal")
+		energiaMedia := r.FormValue("EnergiaMedia")
+		sqlStatement := "UPDATE usinas " +
+		" SET name=$1, parque_id=$2, inversor_id=$3, " +
+		" modulo_id=$4, potencia=$5, " +
+		" potencia_nominal=$6, energia_media=$7 WHERE id=$8"
 		updtForm, err := Db.Prepare(sqlStatement)
 		sec.CheckInternalServerError(err, w)
 		if err != nil {
 			panic(err.Error())
 		}
 		sec.CheckInternalServerError(err, w)
-		updtForm.Exec(name, endereco, cidade, estado, id)
-		//log.Println("UPDATE: Id: " + id + " | Name: " + name + " | Endereco: " + endereco + )"
+		updtForm.Exec(id, nome, parqueId, inversorId,
+			           moduloId , potencia, potenciaNominal,
+			           energiaMedia, id )
+		log.Println("UPDATE: Id: " + id) // + " | Name: " + name + " | Endereco: " + endereco + )"
 		//" | Cidade: " + cidade+ " | Estado: " + estado)
 		http.Redirect(w, r, route.UsinasRoute, 301)
 	} else {
@@ -77,21 +93,69 @@ func DeleteUsinaHandler(w http.ResponseWriter, r *http.Request) {
 func ListUsinasHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("List Usinas")
 	if sec.IsAuthenticated(w, r) {
-		rows, err := Db.Query("SELECT id FROM usinas order by id asc")
-		sec.CheckInternalServerError(err, w)
+		query := "SELECT " +
+		" a.id, " +
+		" coalesce(a.name,'') as UsinaNome," +
+		" coalesce(b.name,'') as ParqueNome, " +
+		" coalesce(c.modelo,'') as InversorNome, " +
+		" coalesce(d.modelo,'') as moduloNome," +
+		" a.potencia, d.potencia_pico " +
+		" c.potencia_nominal, a.energia_media " +
+		" FROM usinas a " +
+		" LEFT JOIN parques b ON a.id = b.id " +
+		" LEFT JOIN inversores c ON a.id = c.id" +
+		" LEFT JOIN modulos d ON a.id = d.id" +
+		" WHERE a.id = $1 " +
+		" order by id asc"
+		log.Println(query)
 		var usinas []mdl.Usina
 		var usina mdl.Usina
+		rows, _ := Db.Query(query)
 		var i = 1
 		for rows.Next() {
-			err = rows.Scan(&usina.Id)
-			sec.CheckInternalServerError(err, w)
+			_ = rows.Scan(
+				&usina.Id, 
+				&usina.Name,
+				&usina.ParqueNome,
+				&usina.InversorNome,
+				&usina.ModuloNome,
+				&usina.Potencia,
+				&usina.PotenciaPico,
+				&usina.PotenciaNominal,
+				&usina.EnergiaMedia)
 			usina.Order = i
 			i++
 			usinas = append(usinas, usina)
 		}
+		query = "SELECT id, modelo, fabricante, potencia_pico FROM modulos order by id asc"
+		log.Println("List Modulo -> Query: " + query)
+		rows, _ = Db.Query(query)
+		var modulos []mdl.Modulo
+		var modulo mdl.Modulo
+		 i = 1
+		for rows.Next() {
+			_ = rows.Scan(&modulo.Id, &modulo.Modelo)
+			modulo.Order = i
+			i++
+			modulos = append(modulos, modulo)
+		}
+		query = "SELECT id, modelo, fabricante, potencia_nominal FROM inversores order by id asc"
+		log.Println("List Modulo -> Query: " + query)
+		rows, _ = Db.Query(query)
+		var inversores []mdl.Inversor
+		var inversor mdl.Inversor
+		i = 1
+		for rows.Next() {
+			_ = rows.Scan(&inversor.Id, &inversor.Modelo)
+			inversor.Order = i
+			i++
+			inversores = append(inversores, inversor)
+		}
 		var page mdl.PageUsinas
 		page.AppName = mdl.AppName
 		page.Usinas = usinas
+		page.Modulos = modulos
+		page.Inversores = inversores
 		page.Title = "Usinas"
 		page.LoggedUser = BuildLoggedUser(GetUserInCookie(w, r))
 		var tmpl = template.Must(template.ParseGlob("tiles/usinas/*"))

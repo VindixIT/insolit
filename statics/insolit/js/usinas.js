@@ -4,6 +4,7 @@ function editUsina(e) {
     editForm.style.display = 'block';
     // get usina id to update
     var usinaId = e.parentNode.parentNode.childNodes[3].innerText;
+	alert("Aqui UsinaId", usinaId)
     var usinaName = e.parentNode.parentNode.childNodes[3].childNodes[1].value;
     //var parqueName = e.parentNode.parentNode.childNodes[5].innerText;
     var parqueId = e.parentNode.parentNode.childNodes[7].childNodes[1].value;
@@ -15,13 +16,13 @@ function editUsina(e) {
     //var inversorName = e.parentNode.parentNode.childNodes[7].innerText;
     var inversorId = e.parentNode.parentNode.childNodes[9].childNodes[1].value;
 	document.getElementById('UsinaIdForUpdate').value = usinaId;
-    document.getElementById('ParqueForUpdate').value = parqueId;
-	document.getElementById('ModuloForUpdate').value = moduloId;
-    document.getElementById('InversorForUpdate').value = inversorId;
-    document.getElementById('NameForUpdate').value = usinaName;
-    document.getElementById('PotenciaForUpdate').value = potencia;
-    document.getElementById('PotenciaNominalForUpdate').value = potenciaNominal;
-    document.getElementById('EnergiaMediaForUpdate').value = energiaMedia;
+    document.getElementById('ParqueUpdate').value = parqueId;
+	document.getElementById('ModuloUpdate').value = moduloId;
+    document.getElementById('InversorUpdate').value = inversorId;
+    document.getElementById('NameUpdate').value = usinaName;
+    document.getElementById('PotenciaUpdate').value = potencia;
+    document.getElementById('PotenciaNominalUpdate').value = potenciaNominal;
+    document.getElementById('EnergiaMediaUpdate').value = energiaMedia;
 }
 
 function deleteUsina(e) {

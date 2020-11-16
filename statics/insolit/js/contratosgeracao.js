@@ -1,7 +1,7 @@
 function editContratoGeracao(e) {
     var editForm = document.getElementById('edit-form');
     editForm.style.display = 'block';
-    var contratoId = e.parentNode.parentNode.childNodes[3].innerText;
+    var contratoGeracaoId = e.parentNode.parentNode.childNodes[3].innerText;
     var contratoConcessionariaId = e.parentNode.parentNode.childNodes[3].childNodes[1].value;
     // var concessionariaName = e.parentNode.parentNode.childNodes[5].innerText;
     var concessionariaId = e.parentNode.parentNode.childNodes[5].childNodes[1].value;
@@ -10,7 +10,7 @@ function editContratoGeracao(e) {
     var unidadeConsumidora = e.parentNode.parentNode.childNodes[9].innerText;
     var vencimentoEm = e.parentNode.parentNode.childNodes[11].innerText;
     var assinaturaEm = e.parentNode.parentNode.childNodes[13].innerText;
-	document.getElementById('ContratoGeracaoIdForUpdate').value = contratoId;
+	document.getElementById('ContratoGeracaoIdForUpdate').value = contratoGeracaoId;
     document.getElementById('ClienteForUpdate').value = clienteId;
     document.getElementById('ConcessionariaForUpdate').value = concessionariaId;
 	document.getElementById('ContratoConcessionariaForUpdate').value = contratoConcessionariaId;
@@ -22,6 +22,6 @@ function editContratoGeracao(e) {
 function deleteContratoGeracao(e) {
     var deleteForm = document.getElementById('delete-form');
     deleteForm.style.display = 'block';
-    var contratoId = e.parentNode.parentNode.childNodes[3].innerText;
-    document.getElementById('ContratoGeracaoIdForDelete').value = contratoId;
+    var contratoGeracaoId = e.parentNode.parentNode.childNodes[3].innerText;
+    document.getElementById('ContratoGeracaoIdForDelete').value = contratoGeracaoId;
 }

@@ -28,7 +28,7 @@ function editFaturaReparticao(e) {
     document.getElementById('PagoForUpdate').value = pago;
 }
 
-function deleteContratoConsumo(e) {
+function deleteFaturaReparticao(e) {
     var deleteForm = document.getElementById('delete-form');
     deleteForm.style.display = 'block';
     var faturaId = e.parentNode.parentNode.childNodes[3].innerText;

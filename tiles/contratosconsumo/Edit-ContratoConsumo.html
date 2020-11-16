@@ -13,7 +13,7 @@
             <form class="w3-container" action="/updateContratoConsumo" method="post">
 				<input type="hidden" name="Id" id="ContratoConsumoIdForUpdate">
 				<label class="w3-label">Cliente</label>
-                <select class="w3-input" name="ClienteForUpdate" id="ClienteIdForUpdate">
+                <select class="w3-input" name="ClienteIdForUpdate" id="ClienteIdForUpdate">
 					<option value=""></option>
 					{{range $index, $cliente := .Clientes }}
 		                <option value="{{$cliente.Id}}" {{if eq true $cliente.Selected}} selected="selected"{{end}}>
@@ -22,7 +22,7 @@
 		            {{end}}
 	            </select>                
                 <label class="w3-label">Concessionária</label>
-                <select class="w3-input" name="ConcessionariaForUpdate" id="ConcessionariaIdForUpdate">
+                <select class="w3-input" name="ConcessionariaIdForUpdate" id="ConcessionariaIdForUpdate">
 					<option value=""></option>
 					{{range $index, $concessionaria := .Concessionarias }}
 		                <option value="{{$concessionaria.Id}}" {{if eq true $concessionaria.Selected}} selected="selected"{{end}}>

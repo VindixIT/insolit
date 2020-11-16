@@ -25,6 +25,6 @@ function deleteContratoConsumo(e) {
     var deleteForm = document.getElementById('delete-form');
     deleteForm.style.display = 'block';
     var contratoId = e.parentNode.parentNode.childNodes[3].innerText;
-	alert(contratoId);
-    document.getElementById('ContratoIdForDelete').value = contratoId;
+	//alert(contratoId);
+    document.getElementById('ContratoConsumoIdForDelete').value = contratoId;
 }

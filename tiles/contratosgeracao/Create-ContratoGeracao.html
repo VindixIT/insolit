@@ -11,7 +11,7 @@
             </div>
             <form class="w3-container" action="/createContratoGeracao" method="post">
 				<label class="w3-label">Cliente</label>
-                <select class="w3-input" name="ClienteForInsert" id="ClienteForInsert">
+                <select class="w3-input" name="ClienteGForInsert" id="ClienteForInsert">
 					<option value=""></option>
 					{{range $index, $cliente := .Clientes }}
 		                <option value="{{$cliente.Id}}" {{if eq true $cliente.Selected}} selected="selected"{{end}}>
@@ -20,7 +20,7 @@
 		            {{end}}
 	            </select>                
                 <label class="w3-label">Usina</label>
-                <select class="w3-input" name="UsinaForInsert" id="UsinaForInsert">
+                <select class="w3-input" name="UsinaGForInsert" id="UsinaForInsert">
 					<option value=""></option>
 					{{range $index, $usina := .Usinas }}
 		                <option value="{{$usina.Id}}" {{if eq true $usina.Selected}} selected="selected"{{end}}>
@@ -29,7 +29,7 @@
 		            {{end}}
 	            </select>
                 <label class="w3-label">Concessionária</label>
-                <select class="w3-input" name="ConcessionariaForInsert" id="ConcessionariaForInsert">
+                <select class="w3-input" name="ConcessionariaGForInsert" id="ConcessionariaForInsert">
 					<option value=""></option>
 					{{range $index, $concessionaria := .Concessionarias }}
 		                <option value="{{$concessionaria.Id}}" {{if eq true $concessionaria.Selected}} selected="selected"{{end}}>
@@ -40,7 +40,7 @@
 				<label class="w3-label">Contrato Concessionária</label>
                 <input class="w3-input" type="text" name="ContratoConcessionaria" value="">
 				<label class="w3-label">Unidade Consumidora</label>
-                <input class="w3-input" type="text" name="UnidadeConsumidora" value="">
+                <input class="w3-input" type="text" name="UC" value="">
                 <label class="w3-label">Vencimento em</label>
                 <input class="w3-input" type="number" name="VencimentoEm" value="">
                 <label class="w3-label">Assinatura em</label>

@@ -13,7 +13,7 @@
             <form class="w3-container" action="/updateUsina" method="post">
 				<input type="hidden" name="Id" id="UsinaIdForUpdate">
 				<label class="w3-label">Parque</label>
-                <select class="w3-input" name="ParqueForUpdate" id="ParqueForUpdate">
+                <select class="w3-input" name="ParqueUpdate" id="ParqueForUpdate">
 					<option value=""></option>
 					{{range $index, $parque := .Parques }}
 		                <option value="{{$parque.Id}}" {{if eq true $parque.Selected}} selected="selected"{{end}}>
@@ -22,7 +22,7 @@
 		            {{end}}
 	            </select>  
 				<label class="w3-label">Módulo</label>
-                <select class="w3-input" name="ModuloForUpdate" id="ModuloForUpdate">
+                <select class="w3-input" name="ModuloUpdate" id="ModuloForUpdate">
 					<option value=""></option>
 					{{range $index, $modulo := .Modulos }}
 		                <option value="{{$modulo.Id}}" {{if eq true $modulo.Selected}} selected="selected"{{end}}>
@@ -31,7 +31,7 @@
 		            {{end}}
 	            </select>  
 				<label class="w3-label">Inversor</label>
-                <select class="w3-input" name="InversorForUpdate" id="InversorForUpdate">
+                <select class="w3-input" name="InversorUpdate" id="InversorForUpdate">
 					<option value=""></option>
 					{{range $index, $inversor := .Inversores }}
 		                <option value="{{$inversor.Id}}" {{if eq true $inversor.Selected}} selected="selected"{{end}}>
@@ -40,13 +40,13 @@
 		            {{end}}
 	            </select>  
                 <label class="w3-label">Nome</label>
-                <input class="w3-input" type="text" id="NameForUpdate" name="Name" value="">
+                <input class="w3-input" type="text" id="NameForUpdate" name="NameUpdate" value="">
                 <label class="w3-label">Potência</label>
-                <input class="w3-input" type="number" id="PotenciaForUpdate" name="Potencia" value="">
+                <input class="w3-input" type="number" id="PotenciaForUpdate" name="PotenciaUpdate" value="">
                 <label class="w3-label">Potência nominal</label>
-                <input class="w3-input" type="number" id="PotenciaNominalForUpdate" name="PotenciaNominal" value="">
+                <input class="w3-input" type="number" id="PotenciaNominalForUpdate" name="PotenciaNominalUpdate" value="">
                 <label class="w3-label">Energia média</label>
-                <input class="w3-input" type="number" id="EnergiaMediaForUpdate" name="EnergiaMedia" value="">
+                <input class="w3-input" type="number" id="EnergiaMediaForUpdate" name="EnergiaMediaUpdate" value="">
 				<button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Salvar</button>
             </form>
         </div>

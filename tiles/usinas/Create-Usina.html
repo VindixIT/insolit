@@ -11,7 +11,7 @@
             </div>
             <form class="w3-container" action="/createUsina" method="post">
 				<label class="w3-label">Parque</label>
-                <select class="w3-input" name="ParqueForInsert" id="ParqueForInsert">
+                <select class="w3-input" name="ParqueInsert" id="ParqueForInsert">
 					<option value=""></option>
 					{{range $index, $parque := .Parques }}
 		                <option value="{{$parque.Id}}" {{if eq true $parque.Selected}} selected="selected"{{end}}>
@@ -20,7 +20,7 @@
 		            {{end}}
 	            </select>  
 				<label class="w3-label">Módulo</label>
-                <select class="w3-input" name="ModuloForInsert" id="ModuloForInsert">
+                <select class="w3-input" name="ModuloInsert" id="ModuloForInsert">
 					<option value=""></option>
 					{{range $index, $modulo := .Modulos }}
 		                <option value="{{$modulo.Id}}" {{if eq true $modulo.Selected}} selected="selected"{{end}}>
@@ -29,7 +29,7 @@
 		            {{end}}
 	            </select>  
 				<label class="w3-label">Inversor</label>
-                <select class="w3-input" name="InversorForInsert" id="InversorForInsert">
+                <select class="w3-input" name="InversorInsert" id="InversorForInsert">
 					<option value=""></option>
 					{{range $index, $inversor := .Inversores }}
 		                <option value="{{$inversor.Id}}" {{if eq true $inversor.Selected}} selected="selected"{{end}}>

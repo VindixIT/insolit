@@ -42,26 +42,25 @@ func CreateContratoConsumoHandler(w http.ResponseWriter, r *http.Request) {
 
 func UpdateContratoConsumoHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
-		clienteId := r.Form["ClienteForUpdate"]
-		concessionariaId := r.Form["ConcessionariaForUpdate"]
+		r.ParseForm()
+		id := r.FormValue("Id")
+		clienteId := r.Form["ClienteIdForUpdate"]
+		concessionariaId := r.Form["ConcessionariaIdForUpdate"]
 		contratoConcessionaria := r.FormValue("ContratoConcessionariaForUpdate")
 		unidadeConsumidora := r.FormValue("UnidadeConsumidoraForUpdate")
 		EnderecoUC := r.FormValue("EnderecoUCForUpdate")
 		VencimentoEm := r.FormValue("VencimentoEmForUpdate")
 		AssinaturaEm := r.FormValue("AssinaturaEmForUpdate")
-		sqlStatement := "UPDATE contratos_consumo(" +
-			" concessionaria_id, cliente_id, " +
-			" contrato_concessionaria, unidade_consumidora, endereco_uc, " +
-			" vencimento, assinatura_em) " +
-			" VALUES ($1, $2, $3, $4, $5, $6, $7)"
+		sqlStatement := "UPDATE contratos_consumo" +
+			" SET concessionaria_id = $1, cliente_id= $2," +
+			" contrato_concessionaria=$3, unidade_consumidora=$4, endereco_uc=$5," +
+			" vencimento=$6, assinatura_em=$7 WHERE id=$8"
 		updtForm, err := Db.Prepare(sqlStatement)
 		if err != nil {
 			panic(err.Error())
 		}
-		//sec.CheckInternalServerError(err, w)
-		updtForm.Exec(concessionariaId[0], clienteId[0], contratoConcessionaria, unidadeConsumidora, EnderecoUC,
-			VencimentoEm, AssinaturaEm)
-		log.Println("UPDATE: clienteId: " + clienteId[0])
+		updtForm.Exec(clienteId[0], concessionariaId[0],  contratoConcessionaria, unidadeConsumidora, EnderecoUC, VencimentoEm, AssinaturaEm, id)
+		log.Println("UPDATE: Id: " + id)
 		http.Redirect(w, r, route.ContratosConsumoRoute, 301)
 	} else {
 		http.Redirect(w, r, "/logout", 301)
@@ -73,7 +72,10 @@ func DeleteContratoConsumoHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("Delete ContratoConsumo")
 		id := r.FormValue("Id")
 		sqlStatement := "DELETE FROM contratos_consumo WHERE id=$1"
-		deleteForm, _ := Db.Prepare(sqlStatement)
+		deleteForm, err := Db.Prepare(sqlStatement)
+		if err != nil {
+			panic(err.Error())
+		}
 		deleteForm.Exec(id)
 		log.Println("DELETE: Id: " + id)
 		http.Redirect(w, r, route.ContratosConsumoRoute, 301)

@@ -13,25 +13,20 @@ import (
 func CreateModuloHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
 		log.Println("Create Modulos")
-		name := r.FormValue("Name")
-		cnpj := r.FormValue("Cnpj")
-		snippet1 := ""
-		snippet2 := ""
-		if cnpj != "" {
-			snippet1 = ", cnpj"
-			snippet2 = ", '" + cnpj + "'"
-		}
-		sqlStatement := "INSERT INTO modulos ( name" + snippet1 + " ) VALUES ( $1" + snippet2 + " ) RETURNING id"
+		modelo:= r.FormValue("Modelo")
+		fabricante := r.FormValue("Fabricante")
+		potenciaPico := r.FormValue("PotenciaPico")
+		sqlStatement := "INSERT INTO modulos (modelo,fabricante, potencia_pico ) VALUES ( $1,$2,$3) RETURNING id"
 		log.Println(sqlStatement)
 		id := 0
-		err := Db.QueryRow(sqlStatement, name).Scan(&id)
+		err := Db.QueryRow(sqlStatement, modelo, fabricante, potenciaPico).Scan(&id)
 		sec.CheckInternalServerError(err, w)
 		if err != nil {
 			panic(err.Error())
 		}
 		sec.CheckInternalServerError(err, w)
 		//		log.Println("INSERT: Id: " + strconv.Itoa(id) + " | Name: " + name + " | Qtd: " + qtd + " | Price: " + price)
-		log.Println("INSERT: Id: " + strconv.Itoa(id) + " | Name: " + name)
+		log.Println("INSERT: Id: " + strconv.Itoa(id))
 		http.Redirect(w, r, route.ModulosRoute, 301)
 	} else {
 		http.Redirect(w, r, "/logout", 301)
@@ -41,18 +36,18 @@ func CreateModuloHandler(w http.ResponseWriter, r *http.Request) {
 func UpdateModuloHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
 		log.Println("Update Modulo")
-		id := r.FormValue("Id")
-		name := r.FormValue("Name")
-		cnpj := r.FormValue("CNPJ")
-		sqlStatement := "UPDATE modulos SET name=$1, cnpj=$2 WHERE id=$3"
+		modelo:= r.FormValue("Modelo")
+		fabricante := r.FormValue("Fabricante")
+		potenciaPico := r.FormValue("PotenciaPico")
+		sqlStatement := "UPDATE modulos SET modelo=$1, fabricante=$2 , potencia_pico=$3 WHERE id=$4"
 		updtForm, err := Db.Prepare(sqlStatement)
 		sec.CheckInternalServerError(err, w)
 		if err != nil {
 			panic(err.Error())
 		}
 		sec.CheckInternalServerError(err, w)
-		updtForm.Exec(name, cnpj, id)
-		log.Println("UPDATE: Id: " + id + " | Name: " + name + " |CNPJ: " + cnpj)
+		updtForm.Exec(modelo, fabricante, potenciaPico)
+		log.Println("UPDATE: modelo: " + modelo )
 		http.Redirect(w, r, route.ModulosRoute, 301)
 	} else {
 		http.Redirect(w, r, "/logout", 301)
@@ -80,13 +75,16 @@ func DeleteModuloHandler(w http.ResponseWriter, r *http.Request) {
 func ListModulosHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("List Modulos")
 	if sec.IsAuthenticated(w, r) {
-		rows, err := Db.Query("SELECT id FROM modulos order by id asc")
+		rows, err := Db.Query("SELECT id, modelo, fabricante, potencia_pico FROM modulos order by id asc")
 		sec.CheckInternalServerError(err, w)
 		var modulos []mdl.Modulo
 		var modulo mdl.Modulo
 		var i = 1
 		for rows.Next() {
-			err = rows.Scan(&modulo.Id)
+			err = rows.Scan(&modulo.Id,
+					&modulo.Modelo,
+					&modulo.Fabricante,
+					&modulo.PotenciaPico)
 			sec.CheckInternalServerError(err, w)
 			modulo.Order = i
 			i++
